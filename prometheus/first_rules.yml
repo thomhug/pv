@@ -1,0 +1,13 @@
+groups:
+  - name: custom_rules
+    interval: 5m
+    rules:
+      - record: shelly_wh_total_test
+        expr: rate(shelly_wh_total[5m]) * scalar(cham_tarif_bezug)/100
+  - name: daily_stats
+    interval: 1h
+    rules:
+    - record: counter:meter:rate1day
+      expr: sum by (direction,job,location,position,description) (rate(meter{type="counter"}[1d]))
+    - record: counter:meter:increase1day
+      expr: sum by (direction,job,location,position,description) (increase(meter{type="counter"}[1d]))
