@@ -1,0 +1,14 @@
+prom@prometheus:~$ cat /etc/systemd/system/json_cham.service 
+[Unit]
+Description=Tunnel service port 7904 on jumphost.x.y
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/ssh -i /home/prom/.ssh/id_rsa -NTC -o ServerAliveInterval=180 -o StrictHostKeyChecking=no -o ServerAliveInterval=60 -o ExitOnForwardFailure=yes -L 7904:127.0.0.1:7904 jumphost.x.y
+Restart=always
+RestartSec=10
+User=prom
+
+[Install]
+WantedBy=multi-user.target
