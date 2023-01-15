@@ -1,0 +1,523 @@
+# config cham
+---
+modules:
+  default:
+    metrics:
+    # legacy
+    - name: shelly_watt
+      path: '{ .total_power }'
+      epochTimestamp: "{ .unixtime }"
+      help: Current power in Watt 
+
+    - name: shelly_wh
+      type: object
+      path: '{ .emeters[0] }'
+      epochTimestamp: "{ .unixtime }"
+      help: Counter in Wh Phase 1
+      labels:
+        index: 1 
+      values:
+        total: '{ .total }'
+        total_returned: '{ .total_returned }'
+
+    - name: shelly_wh
+      type: object
+      path: '{ .emeters[1] }'
+      epochTimestamp: "{ .unixtime }"
+      help: Counter in Wh Phase 1
+      labels:
+        index: 2 
+      values:
+        total: '{ .total }'
+        total_returned: '{ .total_returned }'
+
+    - name: shelly_wh
+      type: object
+      path: '{ .emeters[2] }'
+      epochTimestamp: "{ .unixtime }"
+      help: Counter in Wh Phase 1
+      labels:
+        index: 3 
+      values:
+        total: '{ .total }'
+        total_returned: '{ .total_returned }'
+
+  shelly3em:
+    metrics:
+    # new
+    - name: meter
+      path: '{ .total_power }'
+      labels:
+        location: cham
+        type: gauge
+        index: 
+        direction: 
+      epochTimestamp: "{ .unixtime }"
+
+    - name: meter
+      path: '{ .emeters[0].total }'
+      labels:
+        location: cham
+        type: counter
+        index: 1 
+        direction: in
+      epochTimestamp: "{ .unixtime }"
+
+    - name: meter
+      path: '{ .emeters[0].total_returned }'
+      labels:
+        location: cham
+        type: counter
+        index: 1 
+        direction: out
+      epochTimestamp: "{ .unixtime }"
+
+    - name: meter
+      path: '{ .emeters[1].total }'
+      labels:
+        location: cham
+        type: counter
+        index: 2 
+        direction: in
+      epochTimestamp: "{ .unixtime }"
+
+    - name: meter
+      path: '{ .emeters[1].total_returned }'
+      labels:
+        index: 2 
+        location: cham
+        type: counter
+        direction: out
+      epochTimestamp: "{ .unixtime }"
+
+    - name: meter
+      path: '{ .emeters[2].total }'
+      labels:
+        index: 3 
+        location: cham
+        type: counter
+        direction: in
+      epochTimestamp: "{ .unixtime }"
+
+    - name: meter
+      path: '{ .emeters[2].total_returned }'
+      labels:
+        index: 3 
+        location: cham
+        type: counter
+        direction: out
+      epochTimestamp: "{ .unixtime }"
+
+  moospi:
+    metrics:
+    # legacy
+    - name: cham_aussentemp
+      path: '{ .aussentemp }'
+      epochTimestamp: "{ .timestamp }"
+
+    - name: cham_boiler
+      path: '{ .boiler }'
+      epochTimestamp: "{ .timestamp }"
+
+    - name: cham_wohnzimmer
+      path: '{ .wohnzimmertemp }'
+      epochTimestamp: "{ .timestamp }"
+
+    - name: cham_tarif_status
+      path: '{ .tarif_status }'
+      epochTimestamp: "{ .timestamp }"
+
+    - name: cham_tarif_bezug
+      path: '{ .tarif_bezug }'
+      epochTimestamp: "{ .timestamp }"
+
+    - name: cham_tarif_einspeisung
+      path: '{ .tarif_einspeisung }'
+      epochTimestamp: "{ .timestamp }"
+
+    # new
+    - name: sensor
+      path: '{ .aussentemp }'
+      labels:
+        location: cham
+        type: temp
+        position: outdoor
+        kind: outdoor
+      epochTimestamp: "{ .timestamp }"
+
+    - name: sensor
+      path: '{ .boiler }'
+      labels:
+        location: cham
+        type: temp
+        position: boiler
+        kind: boiler
+      epochTimestamp: "{ .timestamp }"
+
+    - name: sensor
+      path: '{ .wohnzimmertemp }'
+      labels:
+        location: cham
+        type: temp
+        position: Wohnzimmer_PCWeb
+        kind: indoor
+      epochTimestamp: "{ .timestamp }"
+
+    - name: sensor
+      path: '{ .netatmo }'
+      labels:
+        location: cham
+        type: temp
+        position: Wohnzimmer_Netatmo
+        kind: indoor
+      epochTimestamp: "{ .timestamp }"
+
+    - name: sensor
+      path: '{ .shellyht1-temp }'
+      labels:
+        location: cham
+        type: temp
+        position: Wohnzimmer_Shelly
+        kind: indoor
+      epochTimestamp: "{ .timestamp }"
+
+    - name: sensor
+      path: '{ .shellyht1-hum }'
+      labels:
+        location: cham
+        type: hum
+        position: Wohnzimmer_Shelly
+        kind: indoor
+      epochTimestamp: "{ .timestamp }"
+
+    - name: sensor
+      path: '{ .shellyht2-temp }'
+      labels:
+        location: cham
+        type: temp
+        position: Büro
+        kind: indoor
+      epochTimestamp: "{ .timestamp }"
+
+    - name: sensor
+      path: '{ .shellyht2-hum }'
+      labels:
+        location: cham
+        type: hum
+        position: Büro
+        kind: indoor
+      epochTimestamp: "{ .timestamp }"
+
+    - name: sensor
+      path: '{ .shellyht3-temp }'
+      labels:
+        location: cham
+        type: temp
+        position: Schlafzimmer
+        kind: indoor
+      epochTimestamp: "{ .timestamp }"
+
+    - name: sensor
+      path: '{ .shellyht3-hum }'
+      labels:
+        location: cham
+        type: hum
+        position: Schlafzimmer
+        kind: indoor
+      epochTimestamp: "{ .timestamp }"
+
+    - name: sensor
+      path: '{ .kellertemp }'
+      labels:
+        location: cham
+        type: temp
+        position: Keller
+        kind: indoor
+      epochTimestamp: "{ .timestamp }"
+
+    - name: sensor
+      path: '{ .betriebsart }'
+      labels:
+        location: cham
+        type: status
+        position: Betriebsart
+        kind: heizung
+      epochTimestamp: "{ .timestamp }"
+
+    - name: sensor
+      path: '{ .stoermeldung }'
+      labels:
+        location: cham
+        type: status
+        position: Störmeldungen
+        kind: heizung
+      epochTimestamp: "{ .timestamp }"
+
+    - name: sensor
+      path: '{ .rlsoll }'
+      labels:
+        location: cham
+        type: temp
+        position: Rücklaufsoll
+        kind: heizung
+      epochTimestamp: "{ .timestamp }"
+
+    - name: sensor
+      path: '{ .rlsoll2 }'
+      labels:
+        location: cham
+        type: temp
+        position: Rücklaufsoll2
+        kind: heizung
+      epochTimestamp: "{ .timestamp }"
+
+    - name: sensor
+      path: '{ .ruecklauftemp }'
+      labels:
+        location: cham
+        type: temp
+        position: Rücklauf
+        kind: heizung
+      epochTimestamp: "{ .timestamp }"
+
+    - name: sensor
+      path: '{ .vorlauf }'
+      labels:
+        location: cham
+        type: temp
+        position: Vorlauf
+        kind: heizung
+      epochTimestamp: "{ .timestamp }"
+
+    - name: sensor
+      path: '{ .vorlauf2 }'
+      labels:
+        location: cham
+        type: temp
+        position: Vorlauf2
+        kind: heizung
+      epochTimestamp: "{ .timestamp }"
+
+    - name: sensor
+      path: '{ .tauchheizkoerper }'
+      labels:
+        location: cham
+        type: status
+        position: Tauchheizkoerper
+        kind: heizung
+      epochTimestamp: "{ .timestamp }"
+
+    - name: sensor
+      path: '{ .status }'
+      labels:
+        location: cham
+        type: status
+        position: Heizung
+        kind: heizung
+      epochTimestamp: "{ .timestamp }"
+
+    - name: tarif
+      path: '{ .tarif_bezug }'
+      labels:
+        location: cham
+        type: bezug
+      epochTimestamp: "{ .timestamp }"
+
+    - name: tarif
+      path: '{ .tarif_einspeisung }'
+      labels:
+        location: cham
+        type: einspeisung
+      epochTimestamp: "{ .timestamp }"
+
+
+  # /solar_api/v1/GetPowerFlowRealtimeData.fcgi
+  gen24:
+    metrics:
+    - name: meter
+      path: '{ .Body.Data.Site.P_Akku }'
+      labels:
+        location: cham
+        position: battery
+        type: gauge
+      epochTimestamp: "{ .Head.Timestamp }"
+
+    - name: meter
+      path: '{ .Body.Data.Site.P_Grid }'
+      labels:
+        location: cham
+        position: grid
+        type: gauge
+      epochTimestamp: "{ .Head.Timestamp }"
+
+    - name: meter
+      path: '{ .Body.Data.Site.P_Load }'
+      labels:
+        location: cham
+        position: load
+        type: gauge
+      epochTimestamp: "{ .Head.Timestamp }"
+
+    - name: meter
+      path: '{ .Body.Data.Site.P_PV }'
+      labels:
+        location: cham
+        position: generator
+        type: gauge
+      epochTimestamp: "{ .Head.Timestamp }"
+
+    - name: meter
+      path: '{ .Body.Data.Inverters.1.E_Total }'
+      labels:
+        location: cham
+        position: generator
+        type: counter
+      epochTimestamp: "{ .Head.Timestamp }"
+
+    - name: sensor
+      path: '{ .Body.Data.Site.rel_Autonomy }'
+      labels:
+        location: cham
+        type: percent
+        position: relautonomy
+      epochTimestamp: "{ .Head.Timestamp }"
+
+    - name: sensor
+      path: '{ .Body.Data.Site.rel_SelfConsumption }'
+      labels:
+        location: cham
+        type: percent
+        position: selfconsumption
+      epochTimestamp: "{ .Head.Timestamp }"
+
+  # /solar_api/v1/GetInverterRealtimeData.cgi?DataCollection=CommonInverterData&Scope=Device
+  gen24_string:
+    metrics:
+    - name: meter
+      path: '{ .Body.Data.IDC.Value }'
+      labels:
+        location: cham
+        position: genstring
+        type: gauge
+        description: idc1
+      epochTimestamp: "{ .Head.Timestamp }"
+
+    - name: meter
+      path: '{ .Body.Data.IDC_2.Value }'
+      labels:
+        location: cham
+        position: genstring
+        type: gauge
+        description: idc2
+      epochTimestamp: "{ .Head.Timestamp }"
+
+    - name: meter
+      path: '{ .Body.Data.UDC.Value }'
+      labels:
+        location: cham
+        position: genstring
+        type: gauge
+        description: udc1
+      epochTimestamp: "{ .Head.Timestamp }"
+
+    - name: meter
+      path: '{ .Body.Data.UDC_2.Value }'
+      labels:
+        location: cham
+        position: genstring
+        type: gauge
+        description: udc2
+      epochTimestamp: "{ .Head.Timestamp }"
+
+
+  # /solar_api/v1/GetPowerFlowRealtimeData.fcgi
+  gen24_ohmpilot:
+    metrics:
+    - name: sensor
+      path: '{ .Body.Data.Smartloads.Ohmpilots.0.Temperature }'
+      labels:
+        location: cham
+        type: temp
+        position: boiler
+        kind: boiler
+      epochTimestamp: "{ .Head.Timestamp }"
+
+    - name: meter
+      path: '{ .Body.Data.Smartloads.Ohmpilots.0.P_AC_Total }'
+      labels:
+        location: cham
+        position: boiler
+        type: gauge
+      epochTimestamp: "{ .Head.Timestamp }"
+
+  # /solar_api/v1/GetStorageRealtimeData.cgi
+  gen24_battery:
+    metrics:
+    - name: sensor
+      path: '{ .Body.Data.0.Controller.StateOfCharge_Relative }'
+      labels:
+        location: cham
+        type: percent
+        position: battery
+        kind: battery
+      epochTimestamp: "{ .Head.Timestamp }"
+
+    - name: sensor
+      path: '{ .Body.Data.0.Controller.Temperature_Cell }'
+      labels:
+        location: cham
+        type: temp
+        position: battery
+        kind: battery
+      epochTimestamp: "{ .Head.Timestamp }"
+
+  # /solar_api/v1/GetMeterRealtimeData.cgi
+  gen24_meter:
+    metrics:
+    - name: meter
+      path: '{ .Body.Data.1.EnergyReal_WAC_Sum_Produced }'
+      labels:
+        location: cham
+        position: grid
+        type: counter
+        direction: out
+      epochTimestamp: "{ .Head.Timestamp }"
+
+    - name: meter
+      path: '{ .Body.Data.1.EnergyReal_WAC_Sum_Consumed }'
+      labels:
+        location: cham
+        position: grid
+        type: counter
+        direction: in
+      epochTimestamp: "{ .Head.Timestamp }"
+
+  # mystrom /report
+  mystromplug:
+    metrics:
+    - name: meter
+      path: '{ .power }'
+      labels:
+        location: cham
+        position: device
+        type: gauge
+        direction: 
+
+    - name: meter
+      path: '{ .Ws }'
+      labels:
+        location: cham
+        position: device
+        type: counter
+        direction: out
+
+  mystromplugtemp:
+    metrics:
+    - name: sensor
+      path: '{ .temperature }'
+      labels:
+        location: cham
+        type: temp
+        kind: indoor
+
+
