@@ -1,0 +1,229 @@
+global:
+  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  external_labels:
+      monitor: 'example'
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets: ['localhost:9093']
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  - "first_rules.yml"
+  - "alert_rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+
+    # Override the global default and scrape targets from this job every 5 seconds.
+    scrape_interval: 5s
+    scrape_timeout: 5s
+
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: node
+    # If prometheus-node-exporter is installed, grab stats about the local
+    # machine by default.
+    static_configs:
+      - targets: ['localhost:9100']
+
+  ## json exporter
+  - job_name: json_exporter
+    scrape_interval: 5s
+    scrape_timeout: 5s
+    static_configs:
+    - targets:
+      - localhost:7979 
+
+  ## gather the metrics from third party json sources, via the json exporter
+  # Cham
+  - job_name: json
+    metrics_path: /probe
+    scrape_interval: 5s
+    scrape_timeout: 5s
+    params:
+      module: [default]
+    static_configs:
+      - targets:
+        - http://10.10.11.87/status&name=ew
+        - http://10.10.11.81/status&name=pv
+        - http://10.10.11.82/status&name=wp
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: localhost:7979
+
+  - job_name: json2
+    metrics_path: /probe
+    scrape_interval: 5m
+    scrape_timeout: 15s
+    params:
+      module: [moospi]
+    static_configs:
+      - targets:
+        - http://localhost/pv/build.json
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: localhost:7979
+    metric_relabel_configs:
+      - regex: instance
+        action: labeldrop
+
+  - job_name: cham3
+    metrics_path: /probe
+    scrape_interval: 5s
+    scrape_timeout: 5s
+    params:
+      module: [shelly3em]
+    static_configs:
+      - targets:
+        - http://10.10.11.87/status&name=grid
+        - http://10.10.11.81/status&name=generator
+        - http://10.10.11.82/status&name=heatpump
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: localhost:7979
+    metric_relabel_configs:
+      - source_labels: [instance]
+        regex: "http://10.10.11.87/status&name=grid"
+        target_label: position
+        replacement: grid
+      - source_labels: [instance]
+        regex: "http://10.10.11.81/status&name=generator"
+        target_label: position
+        replacement: generator
+      - source_labels: [instance]
+        regex: "http://10.10.11.82/status&name=heatpump"
+        target_label: position
+        replacement: device
+      - source_labels: [instance]
+        regex: "http://10.10.11.82/status&name=heatpump"
+        target_label: description
+        replacement: "Wärmepumpe"
+      - regex: instance
+        action: labeldrop
+
+  - job_name: cham4
+    metrics_path: /probe
+    scrape_interval: 5s
+    scrape_timeout: 5s
+    params:
+      module: [mystromplug]
+    static_configs:
+      - targets:
+        - http://10.10.11.44/report
+        - http://10.10.11.45/report
+        - http://10.10.11.46/report
+        - http://10.10.11.47/report
+        - http://10.10.11.48/report
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: localhost:7979
+    metric_relabel_configs:
+      - source_labels: [instance]
+        regex: "http://10.10.11.44/report"
+        target_label: description
+        replacement: Test
+      - source_labels: [instance]
+        regex: "http://10.10.11.45/report"
+        target_label: description
+        replacement: Router
+      - source_labels: [instance]
+        regex: "http://10.10.11.46/report"
+        target_label: description
+        replacement: Gefrierschrank
+      - source_labels: [instance]
+        regex: "http://10.10.11.47/report"
+        target_label: description
+        replacement: Büro_myStrom
+      - source_labels: [instance]
+        regex: "http://10.10.11.48/report"
+        target_label: description
+        replacement: Netzwerk_Pi
+      - regex: instance
+        action: labeldrop
+
+  - job_name: cham5
+    metrics_path: /probe
+    scrape_interval: 5m
+    scrape_timeout: 15s
+    params:
+      module: [mystromplugtemp]
+    static_configs:
+      - targets:
+        - http://10.10.11.45/report
+        - http://10.10.11.46/report
+        - http://10.10.11.47/report
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: localhost:7979
+    metric_relabel_configs:
+      - source_labels: [instance]
+        regex: "http://10.10.11.45/report"
+        target_label: position
+        replacement: Router
+      - source_labels: [instance]
+        regex: "http://10.10.11.46/report"
+        target_label: position
+        replacement: Gefrierschrank
+      - source_labels: [instance]
+        regex: "http://10.10.11.47/report"
+        target_label: position
+        replacement: Büro_myStrom
+      - regex: instance
+        action: labeldrop
+
+  - job_name: cham6
+    metrics_path: /probe
+    scrape_interval: 5m
+    scrape_timeout: 15s
+    params:
+      module: [gen24_string]
+    static_configs:
+      - targets:
+        - http://localhost/gen24-string
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: localhost:7979
+    metric_relabel_configs:
+      - regex: instance
+        action: labeldrop
+
+
