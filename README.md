@@ -1,6 +1,7 @@
 # Tom's PV Dashboard
 Scripts und Configs um ein PV Dashboard wie dieses zu machen:
 ![Dashboard](https://github.com/thomhug/pv/blob/main/pv%20dashboard%202023-01-13.PNG)
+
 Grobe Funktionsweise:
 
 - Auf einem RaspberryPi im LAN/Wifi mit einem Fronius Wechselrichter, Shelly 3EM's, myStrom Steckdosen und anderen Geräten läuft ein json_exporter (https://github.com/prometheus-community/json_exporter). Die Config vom json_exporter beschreibt, was wo ist in den jeweiligen APIs von den Geräten.
@@ -14,5 +15,9 @@ Hinweise
 - Es gibt historisch bedingt verschiedene Metriken, welche identisch sind, z.B. (alt) shelly_wh_counter und neu meter{type="counter"}, dito mit gauge. Das liegt daran, dass ich erst später verstanden habe, wie Labels funktionieren :) Es ist noch nicht alles aufgeräumt - sorry :)
 - Ich verwende Variablen im Dashboard, aber noch nicht konsequent - sorry für die Verwirrung
 
+Nächste Schritte
+
+- Solarprognose von https://twitter.com/_solarmanager speichern und als ist-soll Vergleich visualisieren.
+- Langzeitspeicher 'Problem' lösen, indem Tagessummen in einer SQL DB gespeichert werden (gibt es bessere Ideen?)
 
 Fragen & Feedback: https://twitter.com/tomdawon
