@@ -25,19 +25,18 @@ Konzept Metriken- & Labelnamen
    
 ```
     sensor:
-      location: <standort, z.b. cham>
+      location: <standort>
       type: <temp, hum, percent, status>
       position: <wohnzimmer, boiler, outdoor>
       kind: <indoor, outdoor, boiler, battery, heizung>   <- optional
     meter:
-      location: <standort, z.b. cham>
-      position: <generator, grid, battery, device, genstring> # wenn wp zähler  spe, dann grid
+      location: <standort>
+      position: <generator, grid, battery, device, genstring> 
       type: <counter, gauge>
       direction: <in, out>   <- nur für counter, gauge wird negativ
-                  in = bezug, out = einspeisung
-      description: <optional ... waermepumpe>
+      description: <optional ... z.B. Wärmepumpe>
     tarif:
-      location: <standort, z.b. cham>
+      location: <standort>
       type: <bezug, einspeisung>
 ```
 
