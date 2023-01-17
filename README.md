@@ -11,16 +11,11 @@ Grobe Funktionsweise:
 - Grafana stellt alles dar via Prometheus Datasource
 - Um den Sonnenstand darzustellen verwende ich das Sun and Moon Plugin für Grafana (https://grafana.com/grafana/plugins/fetzerch-sunandmoon-datasource/)
 
-Hinweise
-
-- Es gibt historisch bedingt verschiedene Metriken, welche identisch sind, z.B. (alt) shelly_wh_counter und neu meter{type="counter"}, dito mit gauge. Das liegt daran, dass ich erst später verstanden habe, wie Labels funktionieren :) Es ist noch nicht alles aufgeräumt - sorry :)
-- Ich verwende Variablen im Dashboard, aber noch nicht konsequent - sorry für die Verwirrung
-
 Konzept Metriken- & Labelnamen
 
 - In/Out aus Sicht Haus: 
   - Grid in = Bezug (>0), grid out = Einspeisung (<0)
-  - PV in = Produktion (>0)
+  - PV in = Produktion (>0) (bei mir verkehrt rum :( )
   - Batt in = Laden (>0)
    
 ```
