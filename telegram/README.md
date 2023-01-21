@@ -2,7 +2,7 @@
 
 Öffne den Chat mit dem User 'BotFather'
 
-
+[BotFather](https://github.com/thomhug/pv/blob/main/telegram/img/Screenshot%202023-01-21%20at%2020.59.53.png)
 
 Schreibe /newbot
 
