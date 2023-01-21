@@ -1,0 +1,13 @@
+#!/usr/bin/python3
+import telebot
+import subprocess
+
+API_TOKEN = '<TOKEN>'
+bot = telebot.TeleBot(API_TOKEN)
+
+solar_raw = subprocess.run(["/home/tom/bin/solar-forecast"], stdout=subprocess.PIPE)
+solar = solar_raw.stdout.decode('UTF-8')
+
+text_msg = "Solarprognose: \n\n" + str(solar)
+#print(text_msg)
+bot.send_message(-1001812885478, text=text_msg)

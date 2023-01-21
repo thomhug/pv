@@ -1,0 +1,35 @@
+#!/bin/bash
+
+json="`curl -s -X 'GET' \
+  'https://cloud.solar-manager.ch/v1/forecast/gateways/<sm:id>' \
+  -H 'accept: application/json' \
+  -H 'authorization: Basic <auth>`"
+
+if [ -z "`echo $json`" ] || [ ! -z "`echo $json | grep Error`" ]; then
+  echo Failed to fetch Forecast.
+  exit
+fi
+
+exp24="`echo -n $json | jq '.[:96] | [.[].expected] | add / 4 / 10 | round /100'`"
+exp24_peak="`echo -n $json | jq '.[:96] | [.[].expected] | max /10 | round /100'`"
+min24="`echo -n $json | jq '.[:96] | [.[].min] | add / 4 / 10 | round /100'`"
+min24_peak="`echo -n $json | jq '.[:96] | [.[].min] | max /10 | round /100'`"
+max24="`echo -n $json | jq '.[:96] | [.[].max] | add / 4 / 10 | round /100'`"
+max24_peak="`echo -n $json | jq '.[:96] | [.[].max] | max /10 | round /100'`"
+
+echo "next 24h"
+echo "$exp24 kWh (range $min24 - $max24)"
+echo "$exp24_peak kW (range $min24_peak - $max24_peak)"
+
+exp48="`echo -n $json | jq '.[96:192] | [.[].expected] | add / 4 / 10 | round /100'`"
+exp48_peak="`echo -n $json | jq '.[96:192] | [.[].expected] | max /10 | round /100'`"
+min48="`echo -n $json | jq '.[96:192] | [.[].min] | add / 4 / 10 | round /100'`"
+min48_peak="`echo -n $json | jq '.[96:192] | [.[].min] | max /10 | round /100'`"
+max48="`echo -n $json | jq '.[96:192] | [.[].max] | add / 4 / 10 | round /100'`"
+max48_peak="`echo -n $json | jq '.[96:192] | [.[].max] | max /10 | round /100'`"
+
+echo
+echo "next 24-48h"
+echo "$exp48 kWh (range $min48 - $max48)"
+echo "$exp48_peak kW (range $min48_peak - $max48_peak)"
+
