@@ -27,4 +27,5 @@ Jetzt kannst du diese Nummer und das Token in tg-bot-test einfüllen und das Skr
 
 ![solarbot](https://github.com/thomhug/pv/blob/main/telegram/img/Screenshot%202023-01-21%20at%2022.02.58.png)
 
-Willkommen bei den unbegrenzten Möglichkeiten von Telegram Bots! Lade den Bot in eine Gruppe ein und erlaube ihm alle Mitteilungen zu lesen.
+Willkommen bei den unbegrenzten Möglichkeiten von Telegram Bots! Lade den Bot in eine Gruppe ein und erlaube ihm alle Mitteilungen zu lesen, indem du ihn zum Admin machst.
+
