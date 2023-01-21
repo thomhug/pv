@@ -1,0 +1,10 @@
+#!/usr/bin/python3
+import telebot
+
+API_TOKEN = '<TOKEN>'
+bot = telebot.TeleBot(API_TOKEN)
+# bei neuer python version noetig
+#bot.config['api_key'] = API_TOKEN
+
+bot.send_message(<CHATID>, text="hallo, ich bin dein bot")
+
