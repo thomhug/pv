@@ -51,25 +51,6 @@ scrape_configs:
 
   ## gather the metrics from third party json sources, via the json exporter
   # Cham
-  - job_name: json
-    metrics_path: /probe
-    scrape_interval: 5s
-    scrape_timeout: 5s
-    params:
-      module: [default]
-    static_configs:
-      - targets:
-        - http://10.10.11.87/status&name=ew
-        - http://10.10.11.81/status&name=pv
-        - http://10.10.11.82/status&name=wp
-    relabel_configs:
-      - source_labels: [__address__]
-        target_label: __param_target
-      - source_labels: [__param_target]
-        target_label: instance
-      - target_label: __address__
-        replacement: localhost:7979
-
   - job_name: json2
     metrics_path: /probe
     scrape_interval: 5m

@@ -3,48 +3,9 @@
 modules:
   default:
     metrics:
-    # legacy
-    - name: shelly_watt
-      path: '{ .total_power }'
-      epochTimestamp: "{ .unixtime }"
-      help: Current power in Watt 
-
-    - name: shelly_wh
-      type: object
-      path: '{ .emeters[0] }'
-      epochTimestamp: "{ .unixtime }"
-      help: Counter in Wh Phase 1
-      labels:
-        index: 1 
-      values:
-        total: '{ .total }'
-        total_returned: '{ .total_returned }'
-
-    - name: shelly_wh
-      type: object
-      path: '{ .emeters[1] }'
-      epochTimestamp: "{ .unixtime }"
-      help: Counter in Wh Phase 1
-      labels:
-        index: 2 
-      values:
-        total: '{ .total }'
-        total_returned: '{ .total_returned }'
-
-    - name: shelly_wh
-      type: object
-      path: '{ .emeters[2] }'
-      epochTimestamp: "{ .unixtime }"
-      help: Counter in Wh Phase 1
-      labels:
-        index: 3 
-      values:
-        total: '{ .total }'
-        total_returned: '{ .total_returned }'
-
+    
   shelly3em:
     metrics:
-    # new
     - name: meter
       path: '{ .total_power }'
       labels:
@@ -110,32 +71,6 @@ modules:
 
   moospi:
     metrics:
-    # legacy
-    - name: cham_aussentemp
-      path: '{ .aussentemp }'
-      epochTimestamp: "{ .timestamp }"
-
-    - name: cham_boiler
-      path: '{ .boiler }'
-      epochTimestamp: "{ .timestamp }"
-
-    - name: cham_wohnzimmer
-      path: '{ .wohnzimmertemp }'
-      epochTimestamp: "{ .timestamp }"
-
-    - name: cham_tarif_status
-      path: '{ .tarif_status }'
-      epochTimestamp: "{ .timestamp }"
-
-    - name: cham_tarif_bezug
-      path: '{ .tarif_bezug }'
-      epochTimestamp: "{ .timestamp }"
-
-    - name: cham_tarif_einspeisung
-      path: '{ .tarif_einspeisung }'
-      epochTimestamp: "{ .timestamp }"
-
-    # new
     - name: sensor
       path: '{ .aussentemp }'
       labels:
