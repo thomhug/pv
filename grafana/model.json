@@ -118,7 +118,7 @@
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
-            "lastNotNull"
+            "last"
           ],
           "fields": "",
           "values": false
@@ -134,7 +134,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "#meter{position=~\"generator|grid|battery\",type=\"gauge\",location=~\"$Location\"}\n\nmeter{position=~\"grid\",type=\"gauge\",location=~\"$Location\"}\n-\nscalar(clamp_max(meter{position=~\"generator\",type=\"gauge\",location=~\"$Location\"},0))\n",
+          "expr": "meter{position=\"grid\",type=\"gauge\",location=\"$Location\"}\n-\nscalar(clamp_max(meter{position=\"generator\",type=\"gauge\",location=\"$Location\"},0))",
           "format": "time_series",
           "instant": true,
           "legendFormat": "{{position}} / {{location}}",
@@ -691,7 +691,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "clamp_max(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}, 0) *-1",
+          "expr": "clamp_max(meter{location=\"$Location\",position=\"grid\",type=\"gauge\"}, 0) *-1",
           "hide": false,
           "legendFormat": "Einspeisung",
           "range": true,
@@ -727,7 +727,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "clamp_min(meter{location=\"$Location\",position=\"grid\",type=\"gauge\"} + scalar(clamp_min(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}, 0)),0)\n\n# clamp_min(meter{location=\"$Location\",position=\"grid\",type=\"gauge\"} + scalar(clamp_min(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}*-1, 0)) - scalar(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}*-1),0)",
+          "expr": "clamp_min(\n  meter{location=\"$Location\",position=\"grid\",type=\"gauge\"}\n  -\n  scalar(clamp_max(meter{position=\"generator\",type=\"gauge\",location=\"$Location\"},0))\n,0)\n\n# clamp_min(meter{location=\"$Location\",position=\"grid\",type=\"gauge\"} + scalar(clamp_min(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}*-1, 0)) - scalar(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}*-1),0)",
           "hide": false,
           "legendFormat": "Verbrauch",
           "range": true,
@@ -2338,8 +2338,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2502,8 +2501,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2689,8 +2687,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2854,6 +2851,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 144,
+  "version": 147,
   "weekStart": ""
 }
