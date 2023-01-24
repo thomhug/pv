@@ -745,7 +745,7 @@
           ]
         }
       ],
-      "title": "PV Cham",
+      "title": "PV $Location_gross",
       "type": "timeseries"
     },
     {
@@ -1274,7 +1274,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(meter{position=\"generator\",type=\"counter\",direction=\"out\",location=\"$Location\"}[1d] offset -1d)/1000)",
+          "expr": "sum(increase(meter{location=\"$Location\",position=\"generator\",type=\"counter\",direction=\"out\"}[1d] offset -1d)/1000)",
           "format": "time_series",
           "instant": false,
           "interval": "",
@@ -1973,7 +1973,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "100 - (100 / sum(increase(meter{position=\"generator\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range]))\n*\nsum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range])) ) ",
+          "expr": "100 - (100 / sum(increase(meter{position=\"generator\",type=\"counter\",location=\"$Location\"}[$__range]))\n*\nsum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range])) ) ",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -2052,7 +2052,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "clamp_min(min_over_time(meter{location=\"cham\",position=\"generator\",type=\"gauge\"}[$__range])*-1,0)",
+          "expr": "clamp_min(min_over_time(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}[$__range])*-1,0)",
           "legendFormat": "PV Peak",
           "range": true,
           "refId": "A"
@@ -2135,7 +2135,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "(avg_over_time(counter:meter:increase1day{location=\"cham\", position=\"grid\", direction=\"in\"}[28d]) \n- scalar(avg_over_time(counter:meter:increase1day{location=\"cham\", position=\"grid\", direction=\"out\"}[28d]))\n+ scalar(avg_over_time(counter:meter:increase1day{location=\"cham\", position=\"generator\", direction=\"out\"}[28d]))\n)\n/1000\n",
+          "expr": "(avg_over_time(counter:meter:increase1day{location=\"$Location\", position=\"grid\", direction=\"in\"}[28d]) \n- scalar(avg_over_time(counter:meter:increase1day{location=\"$Location\", position=\"grid\", direction=\"out\"}[28d]))\n+ scalar(avg_over_time(counter:meter:increase1day{location=\"$Location\", position=\"generator\", direction=\"out\"}[28d]))\n)\n/1000\n",
           "legendFormat": "Verbrauch",
           "range": true,
           "refId": "A"
@@ -2146,7 +2146,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "avg_over_time(counter:meter:increase1day{location=\"cham\", position=\"generator\", direction=\"out\"}[28d])/1000\n",
+          "expr": "avg_over_time(counter:meter:increase1day{location=\"$Location\", position=\"generator\", direction=\"out\"}[28d])/1000\n",
           "hide": false,
           "legendFormat": "Produktion",
           "range": true,
@@ -2338,7 +2338,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -2501,7 +2502,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -2687,7 +2689,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -2840,6 +2843,27 @@
         "query": "cham",
         "skipUrlSync": false,
         "type": "custom"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "Cham",
+          "value": "Cham"
+        },
+        "hide": 2,
+        "includeAll": false,
+        "multi": false,
+        "name": "Location_gross",
+        "options": [
+          {
+            "selected": true,
+            "text": "Cham",
+            "value": "Cham"
+          }
+        ],
+        "query": "Cham",
+        "skipUrlSync": false,
+        "type": "custom"
       }
     ]
   },
@@ -2851,6 +2875,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 147,
+  "version": 150,
   "weekStart": ""
 }
