@@ -134,7 +134,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "meter{position=\"grid\",type=\"gauge\",location=\"$Location\"}\n-\nscalar(clamp_max(meter{job=\"cham3\",position=\"generator\",type=\"gauge\",location=\"$Location\"},0))\n\n# cham3 = shelly\n# cham7 = gen24",
+          "expr": "meter{position=\"grid\",type=\"gauge\",location=\"$Location\"}\n-\nscalar(clamp_max(meter{position=\"generator\",type=\"gauge\",location=\"$Location\"},0))",
           "format": "time_series",
           "instant": true,
           "legendFormat": "{{position}} / {{location}}",
@@ -643,7 +643,10 @@
               "options": {
                 "mode": "exclude",
                 "names": [
-                  "Verbrauch"
+                  "Einspeisung",
+                  "PV",
+                  "Verbrauch",
+                  "Sun altitude"
                 ],
                 "prefix": "All except:",
                 "readOnly": true
@@ -701,7 +704,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "clamp_min(meter{location=\"$Location\",position=\"generator\",type=\"gauge\",job=\"cham3\"}*-1,0)",
+          "expr": "clamp_min(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}*-1,0)",
           "hide": false,
           "legendFormat": "PV",
           "range": true,
@@ -713,7 +716,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "meter{location=\"$Location\",position=\"device\",type=\"gauge\",description=\"Wärmepumpe\",job=\"cham9\"}",
+          "expr": "meter{location=\"$Location\",position=\"device\",type=\"gauge\",description=\"Wärmepumpe\"}*-1",
           "hide": false,
           "legendFormat": "WP",
           "range": true,
@@ -725,7 +728,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "clamp_min(\n  meter{location=\"$Location\",position=\"grid\",type=\"gauge\"}\n  -\n  scalar(clamp_max(meter{position=\"generator\",type=\"gauge\",location=\"$Location\",job=\"cham3\"},0))\n,0)\n\n# clamp_min(meter{location=\"$Location\",position=\"grid\",type=\"gauge\"} + scalar(clamp_min(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}*-1, 0)) - scalar(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}*-1),0)",
+          "expr": "clamp_min(\n  meter{location=\"$Location\",position=\"grid\",type=\"gauge\"}\n  -\n  scalar(clamp_max(sum(meter{position=\"generator\",type=\"gauge\",location=\"$Location\"}),0))\n,0)\n\n# clamp_min(meter{location=\"$Location\",position=\"grid\",type=\"gauge\"} + scalar(clamp_min(sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"})*-1, 0)) - scalar(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}*-1),0)",
           "hide": false,
           "legendFormat": "Verbrauch",
           "range": true,
@@ -1272,7 +1275,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(meter{location=\"$Location\",position=\"generator\",type=\"counter\",direction=\"out\",job=\"cham3\"}[1d] offset -1d)/1000)",
+          "expr": "sum(increase(meter{location=\"$Location\",position=\"generator\",type=\"counter\",direction=\"out\"}[1d] offset -1d)/1000)",
           "format": "time_series",
           "instant": false,
           "interval": "",
@@ -2813,6 +2816,77 @@
       "timeShift": "0d+1d",
       "title": "PV Total / Verbrauch Total pro Woche",
       "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "Fy5McwD4k"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "dark-orange",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "watt"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 20,
+        "y": 31
+      },
+      "id": 59,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Fy5McwD4k"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "meter{position=\"device\", description=\"Wärmepumpe\",type=\"gauge\",location=\"$Location\"}*-1",
+          "format": "time_series",
+          "instant": true,
+          "legendFormat": "{{position}} / {{location}}",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "WP",
+      "transformations": [],
+      "type": "stat"
     }
   ],
   "refresh": "5s",
@@ -2873,6 +2947,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 151,
+  "version": 156,
   "weekStart": ""
 }
