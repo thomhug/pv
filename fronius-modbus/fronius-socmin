@@ -1,0 +1,28 @@
+#!/usr/bin/python3
+# Dieses Skript schreibt die socmin Variable auf einem Gen24
+# Bsp. Wert auf 20% setzen: ./fronius-socmin 2000
+import sys
+from pyModbusTCP.client import ModbusClient
+from pymodbus.payload import BinaryPayloadDecoder 
+from pymodbus.constants import Endian
+SERVER_HOST = "192.168.132.11"
+SERVER_PORT = 502
+regs = []
+
+# Aktuellen Wert lesen und ausgeben
+c = ModbusClient(host=SERVER_HOST, port=SERVER_PORT, auto_open=True)
+reg_list = c.read_holding_registers(40360, 1)
+regs = list(reg_list)
+decoder=BinaryPayloadDecoder.fromRegisters(regs, byteorder=Endian.Big)
+print("Current setting: " + str(decoder.decode_16bit_uint()))
+
+# Neuen Wert schreiben in Promille Integer: 7% = 700 als Arg
+print("writing " + sys.argv[1] + " - default = 700 = 7%")
+c.write_single_register(40360, int(sys.argv[1]))
+
+# Kontrolle: nochmals lesen und ausgeben
+reg_list = c.read_holding_registers(40360, 1)
+regs = list(reg_list)
+decoder=BinaryPayloadDecoder.fromRegisters(regs, byteorder=Endian.Big)
+print("New setting: " + str(decoder.decode_16bit_uint()))
+
