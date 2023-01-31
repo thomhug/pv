@@ -15,7 +15,7 @@ Konzept Metriken- & Labelnamen
 
 - In/Out aus Sicht Haus: 
   - Grid in = Bezug (>0), grid out = Einspeisung (<0)
-  - PV in = Produktion (>0) (bei mir verkehrt rum :( )
+  - PV in = Produktion (>0) 
   - Batt in = Laden (>0)
    
 ```
@@ -28,8 +28,8 @@ Konzept Metriken- & Labelnamen
       location: <standort>
       position: <generator, grid, battery, device, genstring> 
       type: <counter, gauge>
-      direction: <in, out>   <- nur für counter, gauge wird negativ
-      description: <optional ... z.B. Wärmepumpe>
+      direction: <in, out>   <- nur für counter, gauge wird negativ, bei PV leer
+      description: <optional ... z.B. Wärmepumpe, WR Name>
     tarif:
       location: <standort>
       type: <bezug, einspeisung>
