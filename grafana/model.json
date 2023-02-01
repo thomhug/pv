@@ -302,7 +302,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "{position=\"generator\",type=\"gauge\",location=~\"$Location\", description=~\"gen24|symo\"}",
+          "expr": "meter{position=\"generator\",type=\"gauge\",location=~\"$Location\", description=~\"gen24|symo\"} ",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -1058,10 +1058,22 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"in\",location=\"$Location\"}[$__range]))/1000 \n- sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range]))/1000\n+ sum(increase(meter{position=\"generator\",type=\"counter\",direction=~\"out|\",location=\"$Location\"}[$__range]))/1000",
-          "legendFormat": "__auto",
+          "expr": "sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"in\",location=\"$Location\"}[$__range]))/1000 \n- sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range]))/1000\n+ sum(increase(meter{position=\"generator\",type=\"counter\",location=\"$Location\"}[$__range]))/1000",
+          "legendFormat": "Old",
           "range": true,
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Fy5McwD4k"
+          },
+          "editorMode": "code",
+          "expr": "# das ist sicher falsch, weil pv prod only hat nichts mit verbrauch zu tun\nsum(increase(meter{position=\"grid\",type=\"counter\",direction=\"in\",location=\"$Location\"}[$__range]))/1000 \n- sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range]))/1000\n+ sum((sum_over_time(meter{location=\"$Location\",position=\"generator\",type=\"gauge\",description=~\"gen24\"}[$__range]) / 720 / 1000 >=0) + scalar(increase(meter{position=\"generator\",type=\"counter\",description=\"symo\",location=\"$Location\"}[$__range]) / 1000 >=0))",
+          "hide": true,
+          "legendFormat": "New",
+          "range": true,
+          "refId": "B"
         }
       ],
       "title": "Verbrauch Total",
@@ -1195,7 +1207,7 @@
           "editorMode": "code",
           "expr": "sum((sum_over_time(meter{location=\"$Location\",position=\"generator\",type=\"gauge\",description=~\"gen24\"}[$__range]) / 720 / 1000 >=0) + scalar(increase(meter{position=\"generator\",type=\"counter\",description=\"symo\",location=\"$Location\"}[$__range]) / 1000 >=0))",
           "hide": false,
-          "legendFormat": "vor Batt",
+          "legendFormat": "Produktion",
           "range": true,
           "refId": "B"
         },
@@ -1205,8 +1217,8 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "sum(increase(meter{position=\"generator\",type=\"counter\",direction=~\"out|\",location=\"$Location\"}[$__range]) / 1000)",
-          "legendFormat": "nach Batt ",
+          "expr": "# wie wird das gemessen, wenn ein teil vom symo output in die batterie fliesst?\n\nsum(increase(meter{position=\"generator\",type=\"counter\",direction=~\"out|\",location=\"$Location\"}[$__range]) / 1000)",
+          "legendFormat": "nach Batt  - WR AC out",
           "range": true,
           "refId": "A"
         }
@@ -1538,23 +1550,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "scalar(sum(increase(meter{location=\"$Location\",position=\"generator\",type=\"counter\",direction=~\"out|\"}[1d] offset -1d)/1000 >=0))",
-          "format": "time_series",
-          "hide": false,
-          "instant": false,
-          "interval": "",
-          "legendFormat": "Produktion",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Fy5McwD4k"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "scalar(sum((sum_over_time(meter{location=\"$Location\",position=\"generator\",type=\"gauge\",direction=~\"out|\",description=~\"gen24|\"}[1d] offset -1d) / 720 / 1000 >=0)) + scalar(increase(meter{position=\"generator\",type=\"counter\",description=\"symo\",location=\"$Location\"}[1d] offset -1d)  / 1000 >=0)) ",
+          "expr": "sum(\n    sum_over_time(\n        meter{location=\"$Location\",position=\"generator\",type=\"gauge\",description=\"gen24\"}[1d] offset -1d\n    ) / 720 / 1000 >=0\n) \n+ \nscalar(\n    increase(\n        meter{position=\"generator\",type=\"counter\",description=\"symo\",location=\"$Location\"}[1d] offset -1d\n    )  / 1000 >=0\n)",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -1991,7 +1987,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "((sum(meter{position=\"generator\",type=\"counter\",direction=~\"out|\",location=\"$Location\"}) - sum(meter{position=\"generator\",type=\"counter\",direction=~\"out|\",location=\"$Location\"} offset $__interval > 0)) /1000) * scalar(tarif{location=\"$Location\",type=\"einspeisung\"})/100  >=0",
+          "expr": "((sum(meter{position=\"generator\",type=\"counter\",direction=~\"out|\",location=\"$Location\"}  -  meter{position=\"generator\",type=\"counter\",direction=~\"out|\",location=\"$Location\"} offset $__interval > 0)) /1000) * scalar(tarif{location=\"$Location\",type=\"einspeisung\"})/100  >=0\n",
           "hide": false,
           "legendFormat": "Ertrag",
           "range": true,
@@ -2061,7 +2057,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "((sum(meter{location=\"$Location\",position=\"generator\",type=\"counter\",direction=~\"out|\"}) - sum(meter{location=\"$Location\",position=\"generator\",type=\"counter\",direction=~\"out|\"} offset $__interval > 0)) /1000) * scalar(tarif{location=\"$Location\",type=\"bezug\"})/100\n-\n((sum(meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"out\"}) - sum(meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"out\"} offset $__interval > 0)) /1000) * scalar(tarif{location=\"$Location\",type=\"bezug\"})/100\n+\n((sum(meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"out\"}) - sum(meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"out\"} offset $__interval > 0)) /1000) * scalar(tarif{location=\"$Location\",type=\"einspeisung\"})/100\n>=0",
+          "expr": "((sum(meter{location=\"$Location\",position=\"generator\",type=\"counter\",direction=~\"out|\"} - meter{location=\"$Location\",position=\"generator\",type=\"counter\",direction=~\"out|\"} offset $__interval > 0)) /1000) * scalar(tarif{location=\"$Location\",type=\"bezug\"})/100\n-\n((sum(meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"out\"} - meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"out\"} offset $__interval > 0)) /1000) * scalar(tarif{location=\"$Location\",type=\"bezug\"})/100\n+\n((sum(meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"out\"} - meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"out\"} offset $__interval > 0)) /1000) * scalar(tarif{location=\"$Location\",type=\"einspeisung\"})/100\n>=0",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -2319,7 +2315,7 @@
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
-            "lastNotNull"
+            "last"
           ],
           "fields": "",
           "values": false
@@ -2334,7 +2330,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "clamp_min(min_over_time(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}[$__range])*-1,0)",
+          "expr": "sum(clamp_min(max_over_time(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}[$__range]),0))",
           "legendFormat": "PV Peak",
           "range": true,
           "refId": "A"
@@ -2417,7 +2413,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "(avg_over_time(counter:meter:increase1day{location=\"$Location\", position=\"grid\", direction=\"in\"}[28d]) \n- scalar(avg_over_time(counter:meter:increase1day{location=\"$Location\", position=\"grid\", direction=\"out\"}[28d]))\n+ scalar(avg_over_time(counter:meter:increase1day{location=\"$Location\", position=\"generator\", direction=\"out\"}[28d]))\n)\n/1000\n",
+          "expr": "(avg_over_time(counter:meter:increase1day{location=\"$Location\", position=\"grid\", direction=\"in\"}[28d]) \n- scalar(avg_over_time(counter:meter:increase1day{location=\"$Location\", position=\"grid\", direction=\"out\"}[28d])) \n- scalar(sum(avg_over_time(counter:meter:increase1day{location=\"$Location\", position=\"generator\", direction=\"\"}[28d])))\n)\n/1000\n",
           "legendFormat": "Verbrauch",
           "range": true,
           "refId": "A"
@@ -2428,7 +2424,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "avg_over_time(counter:meter:increase1day{location=\"$Location\", position=\"generator\", direction=\"out\"}[28d])/1000\n",
+          "expr": "sum(avg_over_time(counter:meter:increase1day{location=\"$Location\", position=\"generator\"}[28d]))/1000\n",
           "hide": false,
           "legendFormat": "Produktion",
           "range": true,
@@ -2720,7 +2716,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "sum(increase(meter{location=\"$Location\",position=\"generator\",type=\"counter\",direction=~\"out|\"}[1d] offset -1d)/1000)\n- sum(increase(meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"out\"}[1d] offset -1d)/1000)",
+          "expr": "sum(\n    sum_over_time(\n        meter{location=\"$Location\",position=\"generator\",type=\"gauge\",description=\"gen24\"}[1d] offset -1d\n    ) / 720 / 1000 >=0\n) \n+ \nscalar(\n    increase(\n        meter{position=\"generator\",type=\"counter\",description=\"symo\",location=\"$Location\"}[1d] offset -1d\n    )  / 1000 >=0\n)\n- sum(increase(meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"out\"}[1d] offset -1d)/1000)",
           "hide": false,
           "legendFormat": "Eigenverbrauch",
           "range": true,
@@ -2860,6 +2856,21 @@
                 }
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "PV alt"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
           }
         ]
       },
@@ -2907,11 +2918,11 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "sum(increase(meter{location=\"$Location\",position=\"generator\",type=\"counter\",direction=\"out\"}[1d] offset -1d)/1000)",
+          "expr": "sum(\n    sum_over_time(\n        meter{location=\"$Location\",position=\"generator\",type=\"gauge\",description=\"gen24\"}[1d] offset -1d\n    ) / 720 / 1000 >=0\n) \n+ \nscalar(\n    increase(\n        meter{position=\"generator\",type=\"counter\",description=\"symo\",location=\"$Location\"}[1d] offset -1d\n    )  / 1000 >=0\n)",
           "hide": false,
           "legendFormat": "PV",
           "range": true,
-          "refId": "B"
+          "refId": "PV"
         },
         {
           "datasource": {
@@ -2920,13 +2931,14 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"in\"}[1d] offset -1d))/1000 \n- sum(increase(meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"out\"}[1d] offset -1d))/1000\n+ sum(increase(meter{location=\"$Location\",position=\"generator\",type=\"counter\",direction=\"out\"}[1d] offset -1d))/1000",
+          "expr": "sum(increase(meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"in\"}[1d] offset -1d))/1000 \n- sum(increase(meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"out\"}[1d] offset -1d))/1000\n+ sum(\n    sum_over_time(\n        meter{location=\"$Location\",position=\"generator\",type=\"gauge\",description=\"gen24\"}[1d] offset -1d\n    ) / 720 / 1000 >=0\n) \n+ \nscalar(\n    increase(\n        meter{position=\"generator\",type=\"counter\",description=\"symo\",location=\"$Location\"}[1d] offset -1d\n    )  / 1000 >=0\n)",
           "format": "time_series",
+          "hide": false,
           "instant": false,
           "interval": "",
           "legendFormat": "Verbrauch",
           "range": true,
-          "refId": "A"
+          "refId": "Verbrauch"
         }
       ],
       "timeFrom": "8d",
@@ -3072,8 +3084,9 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(meter{location=\"$Location\",position=\"generator\",type=\"counter\",direction=\"out\"}[7d] offset -7d)/1000)",
+          "expr": "sum(\n    sum_over_time(\n        meter{location=\"$Location\",position=\"generator\",type=\"gauge\",description=\"gen24\"}[7d] offset -7d\n    ) / 720 / 1000 >=0\n) \n+ \nscalar(\n    increase(\n        meter{position=\"generator\",type=\"counter\",description=\"symo\",location=\"$Location\"}[7d] offset -7d\n    )  / 1000 >=0\n)",
           "format": "time_series",
+          "hide": false,
           "instant": false,
           "interval": "",
           "legendFormat": "PV",
@@ -3086,7 +3099,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "sum(increase(meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"in\"}[7d] offset -7d))/1000 \n- sum(increase(meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"out\"}[7d] offset -7d))/1000\n+ sum(increase(meter{location=\"$Location\",position=\"generator\",type=\"counter\",direction=\"out\"}[7d] offset -7d))/1000",
+          "expr": "sum(increase(meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"in\"}[7d] offset -7d))/1000 \n- sum(increase(meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"out\"}[7d] offset -7d))/1000\n+ sum(\n    sum_over_time(\n        meter{location=\"$Location\",position=\"generator\",type=\"gauge\",description=\"gen24\"}[7d] offset -7d\n    ) / 720 / 1000 >=0\n) \n+ \nscalar(\n    increase(\n        meter{position=\"generator\",type=\"counter\",description=\"symo\",location=\"$Location\"}[7d] offset -7d\n    )  / 1000 >=0\n)",
           "hide": false,
           "legendFormat": "Verbrauch",
           "range": true,
@@ -3106,6 +3119,75 @@
       "fieldConfig": {
         "defaults": {
           "color": {
+            "fixedColor": "dark-purple",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 12,
+        "y": 31
+      },
+      "id": 65,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Fy5McwD4k"
+          },
+          "editorMode": "code",
+          "expr": "sum_over_time((\n    meter{location=\"$Location\",position=\"battery\",type=\"gauge\"} >0)[5s:$__range]\n)  / 720 / 1000 \n\n",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Batteriebezug",
+      "transformations": [],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "Fy5McwD4k"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
             "mode": "thresholds"
           },
           "mappings": [],
@@ -3113,7 +3195,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -3195,7 +3278,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -3250,7 +3334,7 @@
       "type": "stat"
     }
   ],
-  "refresh": "5s",
+  "refresh": false,
   "schemaVersion": 37,
   "style": "dark",
   "tags": [],
@@ -3308,6 +3392,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 178,
+  "version": 186,
   "weekStart": ""
 }
