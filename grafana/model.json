@@ -756,7 +756,7 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "dark-purple",
+                  "fixedColor": "dark-orange",
                   "mode": "fixed"
                 }
               },
@@ -862,6 +862,21 @@
             ]
           },
           {
+            "matcher": {
+              "id": "byName",
+              "options": "Batteriebezug"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
             "__systemRef": "hideSeriesFrom",
             "matcher": {
               "id": "byNames",
@@ -870,8 +885,9 @@
                 "names": [
                   "PV",
                   "Verbrauch",
-                  "Sun altitude",
-                  "Batterie"
+                  "Batterie",
+                  "Batteriebezug",
+                  "Sun altitude"
                 ],
                 "prefix": "All except:",
                 "readOnly": true
@@ -995,6 +1011,18 @@
           "legendFormat": "Batterie",
           "range": true,
           "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Fy5McwD4k"
+          },
+          "editorMode": "code",
+          "expr": "clamp_min(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"},0)",
+          "hide": false,
+          "legendFormat": "Batteriebezug",
+          "range": true,
+          "refId": "D"
         }
       ],
       "title": "PV $Location_gross",
@@ -1558,6 +1586,22 @@
           "legendFormat": "Produktion",
           "range": true,
           "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Fy5McwD4k"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(meter{position=\"generator\",type=\"counter\",direction=\"out\",location=\"$Location\"}[1d] offset -1d)  / 1000 >=0)\n",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Produktion old",
+          "range": true,
+          "refId": "A"
         }
       ],
       "timeFrom": "8d",
@@ -2413,7 +2457,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "(avg_over_time(counter:meter:increase1day{location=\"$Location\", position=\"grid\", direction=\"in\"}[28d]) \n- scalar(avg_over_time(counter:meter:increase1day{location=\"$Location\", position=\"grid\", direction=\"out\"}[28d])) \n- scalar(sum(avg_over_time(counter:meter:increase1day{location=\"$Location\", position=\"generator\", direction=\"\"}[28d])))\n)\n/1000\n",
+          "expr": "(avg_over_time(counter:meter:increase1day{location=\"$Location\", position=\"grid\", direction=\"in\"}[28d]) \n- scalar(avg_over_time(counter:meter:increase1day{location=\"$Location\", position=\"grid\", direction=\"out\"}[28d])) \n- scalar(sum(avg_over_time(counter:meter:increase1day{location=\"$Location\", position=\"generator\", direction=~\"out|\"}[28d])))\n)\n/1000\n",
           "legendFormat": "Verbrauch",
           "range": true,
           "refId": "A"
@@ -2780,8 +2824,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2983,8 +3026,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3127,8 +3169,75 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 8,
+        "y": 31
+      },
+      "id": 66,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Fy5McwD4k"
+          },
+          "editorMode": "code",
+          "expr": "sum_over_time((\n    meter{location=\"$Location\",position=\"battery\",type=\"gauge\"} >0)[$__range:5s]\n)  / 720 / 1000\n\n\n",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Batteriebezug",
+      "transformations": [],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "Fy5McwD4k"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "dark-purple",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3170,13 +3279,13 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "sum_over_time((\n    meter{location=\"$Location\",position=\"battery\",type=\"gauge\"} >0)[5s:$__range]\n)  / 720 / 1000 \n\n",
+          "expr": "sum_over_time((\n    meter{location=\"$Location\",position=\"battery\",type=\"gauge\"} <0)[$__range:5s]\n)  / 720 / 1000 *-1\n\n\n",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Batteriebezug",
+      "title": "Batterieladung",
       "transformations": [],
       "type": "stat"
     },
@@ -3195,8 +3304,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3278,8 +3386,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3392,6 +3499,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 186,
+  "version": 191,
   "weekStart": ""
 }
