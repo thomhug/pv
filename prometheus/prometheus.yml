@@ -1,3 +1,5 @@
+# Sample config for Prometheus.
+
 global:
   scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
   evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
@@ -51,7 +53,7 @@ scrape_configs:
 
   ## gather the metrics from third party json sources, via the json exporter
   # Cham
-  - job_name: json2
+  - job_name: cham2
     metrics_path: /probe
     scrape_interval: 5m
     scrape_timeout: 15s
@@ -79,9 +81,9 @@ scrape_configs:
       module: [shelly3em]
     static_configs:
       - targets:
-        - http://10.10.11.87/status&name=grid
         - http://10.10.11.81/status&name=generator
-        - http://10.10.11.82/status&name=heatpump
+    #    - http://10.10.11.87/status&name=grid
+    #    - http://10.10.11.82/status&name=heatpump
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
@@ -91,23 +93,26 @@ scrape_configs:
         replacement: localhost:7979
     metric_relabel_configs:
       - source_labels: [instance]
-        regex: "http://10.10.11.87/status&name=grid"
-        target_label: position
-        replacement: grid
-      - source_labels: [instance]
         regex: "http://10.10.11.81/status&name=generator"
         target_label: position
-        replacement: generator
-      - source_labels: [instance]
-        regex: "http://10.10.11.82/status&name=heatpump"
-        target_label: position
-        replacement: device
-      - source_labels: [instance]
-        regex: "http://10.10.11.82/status&name=heatpump"
-        target_label: description
-        replacement: "Wärmepumpe"
+        replacement: generator-output
       - regex: instance
         action: labeldrop
+
+#     - source_labels: [instance]
+#       regex: "http://10.10.11.87/status&name=grid"
+#       target_label: position
+#       replacement: grid
+#     - source_labels: [instance]
+#       regex: "http://10.10.11.82/status&name=heatpump"
+#       target_label: position
+#       replacement: device
+#     - source_labels: [instance]
+#       regex: "http://10.10.11.82/status&name=heatpump"
+#       target_label: description
+#       replacement: "Wärmepumpe"
+#      - regex: instance
+#        action: labeldrop
 
   - job_name: cham4
     metrics_path: /probe
@@ -207,4 +212,87 @@ scrape_configs:
       - regex: instance
         action: labeldrop
 
+  - job_name: cham7
+    metrics_path: /probe
+    scrape_interval: 5s
+    scrape_timeout: 5s
+    params:
+      module: [gen24]
+    static_configs:
+      - targets:
+        - http://192.168.132.11/solar_api/v1/GetPowerFlowRealtimeData.fcgi
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: localhost:7979
+    metric_relabel_configs:
+      - regex: instance
+        action: labeldrop
+
+  - job_name: cham8
+    metrics_path: /probe
+    scrape_interval: 5s
+    scrape_timeout: 5s
+    params:
+      module: [gen24_battery]
+    static_configs:
+      - targets:
+        - http://192.168.132.11/solar_api/v1/GetStorageRealtimeData.cgi
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: localhost:7979
+    metric_relabel_configs:
+      - regex: instance
+        action: labeldrop
+
+  - job_name: cham9
+    metrics_path: /probe
+    scrape_interval: 5s
+    scrape_timeout: 5s
+    params:
+      module: [gen24_meter]
+    static_configs:
+      - targets:
+        - http://192.168.132.11/solar_api/v1/GetMeterRealtimeData.cgi
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: localhost:7979
+    metric_relabel_configs:
+      - source_labels: [position]
+        regex: "device"
+        target_label: description
+        replacement: "Wärmepumpe"
+      - regex: instance
+        action: labeldrop
+
+  - job_name: cham10
+    metrics_path: /probe
+    scrape_interval: 5s
+    scrape_timeout: 5s
+    params:
+      module: [symo]
+    static_configs:
+      - targets:
+        - http://192.168.132.12/solar_api/v1/GetPowerFlowRealtimeData.fcgi
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: localhost:7979
+    metric_relabel_configs:
+      - regex: instance
+        action: labeldrop
 
