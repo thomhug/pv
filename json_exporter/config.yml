@@ -3,7 +3,7 @@
 modules:
   default:
     metrics:
-    
+
   shelly3em:
     metrics:
     - name: meter
@@ -275,6 +275,7 @@ modules:
         location: cham
         position: battery
         type: gauge
+        description: 
       epochTimestamp: "{ .Head.Timestamp }"
 
     - name: meter
@@ -283,6 +284,7 @@ modules:
         location: cham
         position: grid
         type: gauge
+        description: gen24
       epochTimestamp: "{ .Head.Timestamp }"
 
     - name: meter
@@ -291,6 +293,7 @@ modules:
         location: cham
         position: load
         type: gauge
+        description: gen24
       epochTimestamp: "{ .Head.Timestamp }"
 
     - name: meter
@@ -299,6 +302,7 @@ modules:
         location: cham
         position: generator
         type: gauge
+        description: gen24
       epochTimestamp: "{ .Head.Timestamp }"
 
     - name: meter
@@ -307,6 +311,7 @@ modules:
         location: cham
         position: generator
         type: counter
+        description: gen24
       epochTimestamp: "{ .Head.Timestamp }"
 
     - name: sensor
@@ -315,6 +320,7 @@ modules:
         location: cham
         type: percent
         position: relautonomy
+        description: gen24
       epochTimestamp: "{ .Head.Timestamp }"
 
     - name: sensor
@@ -323,6 +329,28 @@ modules:
         location: cham
         type: percent
         position: selfconsumption
+        description: gen24
+      epochTimestamp: "{ .Head.Timestamp }"
+
+  # /solar_api/v1/GetPowerFlowRealtimeData.fcgi
+  symo:
+    metrics:
+    - name: meter
+      path: '{ .Body.Data.Site.P_PV }'
+      labels:
+        location: cham
+        position: generator
+        type: gauge
+        description: symo
+      epochTimestamp: "{ .Head.Timestamp }"
+
+    - name: meter
+      path: '{ .Body.Data.Inverters.1.E_Total }'
+      labels:
+        location: cham
+        position: generator
+        type: counter
+        description: symo
       epochTimestamp: "{ .Head.Timestamp }"
 
   # /solar_api/v1/GetInverterRealtimeData.cgi?DataCollection=CommonInverterData&Scope=Device
@@ -410,7 +438,7 @@ modules:
   gen24_meter:
     metrics:
     - name: meter
-      path: '{ .Body.Data.1.EnergyReal_WAC_Sum_Produced }'
+      path: '{ .Body.Data.0.EnergyReal_WAC_Sum_Produced }'
       labels:
         location: cham
         position: grid
@@ -419,12 +447,30 @@ modules:
       epochTimestamp: "{ .Head.Timestamp }"
 
     - name: meter
-      path: '{ .Body.Data.1.EnergyReal_WAC_Sum_Consumed }'
+      path: '{ .Body.Data.0.EnergyReal_WAC_Sum_Consumed }'
       labels:
         location: cham
         position: grid
         type: counter
         direction: in
+      epochTimestamp: "{ .Head.Timestamp }"
+
+    - name: meter
+      path: '{ .Body.Data.1.EnergyReal_WAC_Sum_Consumed }'
+      labels:
+        location: cham
+        position: device
+        type: counter
+        direction: in
+      epochTimestamp: "{ .Head.Timestamp }"
+
+    - name: meter
+      path: '{ .Body.Data.1.PowerReal_P_Sum }'
+      labels:
+        location: cham
+        position: device
+        type: gauge
+        direction: 
       epochTimestamp: "{ .Head.Timestamp }"
 
   # mystrom /report
@@ -443,7 +489,7 @@ modules:
       labels:
         location: cham
         position: device
-        type: counter
+        type: gauge_average
         direction: out
 
   mystromplugtemp:

@@ -6,7 +6,7 @@
 # auslesbare Daten (z.B. Batteriebetriebene Geraete, welche ihren Status pushen) mit dem 
 # json_exporter exportieren. 
 
-dir=/run/user/1001
+dir=/run/json_creator
 date=$(date --iso-8601=seconds)
 
 if [ ! -d $dir/json/ ]; then
