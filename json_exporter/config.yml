@@ -306,6 +306,15 @@ modules:
       epochTimestamp: "{ .Head.Timestamp }"
 
     - name: meter
+      path: '{ .Body.Data.Inverters.1.P }'
+      labels:
+        location: cham
+        position: pac
+        type: gauge
+        description: gen24
+      epochTimestamp: "{ .Head.Timestamp }"
+
+    - name: meter
       path: '{ .Body.Data.Inverters.1.E_Total }'
       labels:
         location: cham
