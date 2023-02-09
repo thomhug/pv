@@ -1,5 +1,5 @@
 #!/bin/bash
-# tom@nine.ch - 17.11.2022
+# tomatnine.ch - 17.11.2022
 #
 # Dieses Skript erstellt aus Files mit Value als Inhalt ein json-File. Siehe Beispiel. 
 # So kann man z.B. der Tarif oder andere, nicht direkt aus Wechselrichter oder anderen APIs
