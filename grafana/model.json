@@ -1150,41 +1150,6 @@
           "legendFormat": "Produktion",
           "range": true,
           "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Fy5McwD4k"
-          },
-          "editorMode": "code",
-          "expr": "# wie wird das gemessen, wenn ein teil vom symo output in die batterie fliesst?\n\nsum(increase(meter{position=\"generator\",type=\"counter\",direction=~\"out|\",location=\"$Location\"}[$__range]) / 1000)",
-          "legendFormat": "nach Batt  - WR AC out",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Fy5McwD4k"
-          },
-          "editorMode": "code",
-          "expr": "sum(increase(meter{position=\"generator\",type=\"counter\",description=\"gen24\",location=\"$Location\"}[$__range]) / 1000)",
-          "hide": false,
-          "legendFormat": "gen24 AC out",
-          "range": true,
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Fy5McwD4k"
-          },
-          "editorMode": "code",
-          "expr": "sum(increase(meter{position=\"generator\",type=\"counter\",description=\"symo\",location=\"$Location\"}[$__range]) / 1000)",
-          "hide": false,
-          "legendFormat": "symo AC out",
-          "range": true,
-          "refId": "D"
         }
       ],
       "title": "PV Total",
@@ -3717,6 +3682,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 209,
+  "version": 210,
   "weekStart": ""
 }
