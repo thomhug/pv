@@ -998,22 +998,10 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"in\",location=\"$Location\"}[$__range]))/1000 \n- sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range]))/1000\n+ sum(increase(meter{position=\"generator\",type=\"counter\",location=\"$Location\"}[$__range]))/1000",
-          "legendFormat": "Old",
+          "expr": "sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"in\",location=\"$Location\"}[$__range]))/1000 \n- sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range]))/1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"})[$__range:5s]\n)  / 720 / 1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>0)[$__range:5s]\n)  / 720 / 1000",
+          "legendFormat": "__auto",
           "range": true,
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Fy5McwD4k"
-          },
-          "editorMode": "code",
-          "expr": "# das ist sicher falsch, weil pv prod only hat nichts mit verbrauch zu tun\nsum(increase(meter{position=\"grid\",type=\"counter\",direction=\"in\",location=\"$Location\"}[$__range]))/1000 \n- sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range]))/1000\n+ sum((sum_over_time(meter{location=\"$Location\",position=\"generator\",type=\"gauge\",description=~\"gen24\"}[$__range]) / 720 / 1000 >=0) + scalar(increase(meter{position=\"generator\",type=\"counter\",description=\"symo\",location=\"$Location\"}[$__range]) / 1000 >=0))",
-          "hide": true,
-          "legendFormat": "New",
-          "range": true,
-          "refId": "B"
         }
       ],
       "title": "Verbrauch Total",
@@ -1280,7 +1268,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "sum(increase(meter{position=\"generator\",type=\"counter\",direction=~\"out|\",location=\"$Location\"}[$__range]))/1000\n- sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range]))/1000",
+          "expr": "sum_over_time(\n    sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>0)[$__range:5s]\n)  / 720 / 1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"})[$__range:5s]\n)  / 720 / 1000\n- sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range]))/1000",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -1505,7 +1493,7 @@
           "refId": "A"
         }
       ],
-      "timeFrom": "8d",
+      "timeFrom": "10d",
       "timeShift": "0d+1d",
       "title": "PV Total",
       "transformations": [
@@ -1687,7 +1675,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"in\",location=\"$Location\"}[1d] offset -1d))/1000 \n- sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[1d] offset -1d))/1000\n+ sum(increase(meter{position=\"generator\",type=\"counter\",direction=~\"out|\",location=\"$Location\"}[1d] offset -1d))/1000\n\n-sum(increase(meter{description=\"Wärmepumpe\",location=\"$Location\",position=\"device\",type=\"counter\"}[1d] offset -1d)) / 1000",
+          "expr": "sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"in\",location=\"$Location\"}[1d] offset -1d))/1000 \n- sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[1d] offset -1d))/1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"})[1d:5s] offset -1d\n)  / 720 / 1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>0)[1d:5s] offset -1d\n)  / 720 / 1000\n\n-sum(increase(meter{description=\"Wärmepumpe\",location=\"$Location\",position=\"device\",type=\"counter\"}[1d] offset -1d)) / 1000",
           "format": "time_series",
           "instant": false,
           "interval": "",
@@ -1708,7 +1696,7 @@
           "refId": "B"
         }
       ],
-      "timeFrom": "8d",
+      "timeFrom": "10d",
       "timeShift": "0d+1d",
       "title": "Verbrauch",
       "transformations": [
@@ -1948,7 +1936,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "((sum(meter{position=\"generator\",type=\"counter\",direction=~\"out|\",location=\"$Location\"}  -  meter{position=\"generator\",type=\"counter\",direction=~\"out|\",location=\"$Location\"} offset $__interval > 0)) /1000) * scalar(tarif{location=\"$Location\",type=\"einspeisung\"})/100  >=0\n",
+          "expr": "((sum(meter{position=\"generator\",type=\"counter\",direction=~\"out|\",location=\"$Location\"}  -  meter{position=\"generator\",type=\"counter\",direction=~\"out|\",location=\"$Location\"} offset $__interval > 0)) /1000) * scalar(tarif{location=\"$Location\",type=\"einspeisung\"})/100  >=0\n\n#sum_over_time(\n#    sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>0)[1d:5s] offset -1d\n#)  / 720 / 1000",
           "hide": false,
           "legendFormat": "Ertrag",
           "range": true,
@@ -2036,281 +2024,28 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 0,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "percentunit"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Zeit"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "dark-blue",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Energiemenge"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "dark-blue",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 0,
-        "y": 22
-      },
-      "id": 38,
-      "maxDataPoints": 100,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.3.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Fy5McwD4k"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "(meter{position=\"grid\",type=\"gauge\",location=\"$Location\"} < bool 10)",
-          "format": "time_series",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "Zeit",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Fy5McwD4k"
-          },
-          "editorMode": "code",
-          "expr": "100/(sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"in\",location=\"$Location\"}[$__range]))/1000 \n- sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range]))/1000\n+ sum(increase(meter{position=\"generator\",type=\"counter\",direction=~\"out|\",location=\"$Location\"}[$__range]))/1000)/100\n*\n(sum(increase(meter{position=\"generator\",type=\"counter\",direction=~\"out|\",location=\"$Location\"}[$__range]))/1000\n- sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range]))/1000)",
-          "hide": false,
-          "legendFormat": "Energiemenge",
-          "range": true,
-          "refId": "B"
-        }
-      ],
-      "title": "Autarkiegrad",
-      "transformations": [],
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "Fy5McwD4k"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "fixedColor": "dark-blue",
+            "fixedColor": "dark-yellow",
             "mode": "fixed"
           },
-          "mappings": [
-            {
-              "options": {
-                "NaN": {
-                  "index": 0,
-                  "text": "0.00 %"
-                }
-              },
-              "type": "value"
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
             }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 4,
-        "y": 22
-      },
-      "id": 37,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.3.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Fy5McwD4k"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "100 - (100 / sum(increase(meter{position=\"generator\",type=\"counter\",location=\"$Location\"}[$__range]))\n*\nsum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range])) ) ",
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Anteil Eigenverbrauch",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "Fy5McwD4k"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "watt"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "PV Peak"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "dark-yellow",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 8,
-        "y": 22
-      },
-      "id": 42,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "last"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.3.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Fy5McwD4k"
-          },
-          "editorMode": "code",
-          "expr": "sum(clamp_min(max_over_time(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}[$__range]),0))",
-          "legendFormat": "PV Peak",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "PV Peak",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "Fy5McwD4k"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "fixedColor": "dark-blue",
-            "mode": "fixed"
           },
           "mappings": [],
           "thresholds": {
@@ -2332,13 +2067,40 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Produktion"
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "time:DD.MM."
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Batteriebezug"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "dark-yellow",
+                  "fixedColor": "dark-purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Batterieladung"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "super-light-purple",
                   "mode": "fixed"
                 }
               }
@@ -2347,25 +2109,188 @@
         ]
       },
       "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 12,
+        "h": 6,
+        "w": 8,
+        "x": 0,
         "y": 22
       },
-      "id": 55,
+      "hideTimeOverride": true,
+      "id": 68,
+      "interval": "1d",
+      "maxDataPoints": 1248,
       "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
           "calcs": [
-            "lastNotNull"
+            "mean"
           ],
-          "fields": "",
-          "values": false
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
         },
-        "textMode": "auto"
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "text": {
+          "valueSize": 12
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "Time",
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "9.2.4",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Fy5McwD4k"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "max(\n sum_over_time((\n    meter{location=\"$Location\",position=\"battery\",type=\"gauge\"} >0)[1d:5s]\n )  / 720 / 1000\n)\n",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Batteriebezug",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Fy5McwD4k"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "min(\n sum_over_time((\n    meter{location=\"$Location\",position=\"battery\",type=\"gauge\"} <0)[1d:5s]\n )  / 720 / 1000\n) *-1\n",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Batterieladung",
+          "range": true,
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Fy5McwD4k"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "max(\n sum_over_time((\n    meter{location=\"$Location\",position=\"battery\",type=\"gauge\"} >0 * scalar(tarif{location=\"$Location\",type=\"bezug\"}))[1d:5s]\n )  / 720 / 1000\n)\n",
+          "format": "time_series",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Batteriebezug",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "timeFrom": "10d",
+      "timeShift": "0d+1d",
+      "title": "Batteriebezug",
+      "transformations": [],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "Fy5McwD4k"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "dark-purple",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "time:DD.MM."
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 8,
+        "y": 22
+      },
+      "hideTimeOverride": true,
+      "id": 69,
+      "interval": "1d",
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
       },
       "pluginVersion": "9.3.2",
       "targets": [
@@ -2375,27 +2300,17 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "(avg_over_time(counter:meter:increase1day{location=\"$Location\", position=\"grid\", direction=\"in\"}[28d])>0 \n- scalar(avg_over_time(counter:meter:increase1day{location=\"$Location\", position=\"grid\", direction=\"out\"}[28d]) >0) \n- scalar(sum(avg_over_time(counter:meter:increase1day{location=\"$Location\", position=\"generator\", direction=~\"out|\"}[28d])>0))\n)\n/1000\n",
-          "legendFormat": "Verbrauch",
+          "expr": "(max_over_time(sensor{kind=\"battery\",location=\"cham\",position=\"battery\",type=\"percent\"}[1d] offset -1d) - min_over_time(sensor{kind=\"battery\",location=\"cham\",position=\"battery\",type=\"percent\"}[1d] offset -1d))/100*19.32",
+          "legendFormat": "Batterienutzungsspektrum (19.32kWh)",
           "range": true,
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Fy5McwD4k"
-          },
-          "editorMode": "code",
-          "expr": "sum(avg_over_time(counter:meter:increase1day{location=\"$Location\", position=\"generator\"}[28d]))/1000\n",
-          "hide": false,
-          "legendFormat": "Produktion",
-          "range": true,
-          "refId": "B"
         }
       ],
-      "title": "Tagesschnitt über 28 Tage",
+      "timeFrom": "10d",
+      "timeShift": "0d+0d",
+      "title": "Batterie Spektrum",
       "transformations": [],
-      "type": "stat"
+      "type": "barchart"
     },
     {
       "datasource": {
@@ -2620,13 +2535,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Eigenverbrauch"
+              "options": "Verbrauch"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "dark-purple",
+                  "fixedColor": "dark-blue",
                   "mode": "fixed"
                 }
               }
@@ -2637,12 +2552,12 @@
       "gridPos": {
         "h": 6,
         "w": 8,
-        "x": 0,
+        "x": 16,
         "y": 25
       },
       "hideTimeOverride": true,
-      "id": 57,
-      "interval": "1d",
+      "id": 58,
+      "interval": "7d",
       "maxDataPoints": 1248,
       "options": {
         "barRadius": 0,
@@ -2658,7 +2573,7 @@
         },
         "orientation": "auto",
         "showValue": "auto",
-        "stacking": "normal",
+        "stacking": "none",
         "text": {
           "valueSize": 12
         },
@@ -2678,11 +2593,15 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "sum_over_time(\n    sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>0)[1d:5s] offset -1d\n)  / 720 / 1000\n- sum(increase(meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"out\"}[1d] offset -1d)/1000)",
+          "exemplar": false,
+          "expr": "sum_over_time(\n    sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>100)[7d:5s] offset -7d\n)  / 720 / 1000",
+          "format": "time_series",
           "hide": false,
-          "legendFormat": "Eigenverbrauch",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "PV",
           "range": true,
-          "refId": "B"
+          "refId": "A"
         },
         {
           "datasource": {
@@ -2690,21 +2609,209 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
+          "expr": "sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"in\",location=\"$Location\"}[7d] offset -7d))/1000 \n- sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[7d] offset -7d))/1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"})[7d:5s] offset -7d\n)  / 720 / 1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>0)[7d:5s] offset -7d\n)  / 720 / 1000",
+          "hide": false,
+          "legendFormat": "Verbrauch",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "timeFrom": "56d",
+      "timeShift": "0d+1d",
+      "title": "PV Total / Verbrauch Total pro Woche",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "Fy5McwD4k"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Zeit"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Energiemenge"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 0,
+        "y": 28
+      },
+      "id": 38,
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Fy5McwD4k"
+          },
+          "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"out\"}[1d] offset -1d)/1000)",
+          "expr": "(meter{position=\"grid\",type=\"gauge\",location=\"$Location\"} < bool 10)",
           "format": "time_series",
+          "hide": false,
           "instant": false,
-          "interval": "",
-          "legendFormat": "PV",
+          "legendFormat": "Zeit",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Fy5McwD4k"
+          },
+          "editorMode": "code",
+          "expr": "100/(sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"in\",location=\"$Location\"}[$__range]))/1000 \n- sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range]))/1000\n+ sum(increase(meter{position=\"generator\",type=\"counter\",direction=~\"out|\",location=\"$Location\"}[$__range]))/1000)/100\n*\n(sum(increase(meter{position=\"generator\",type=\"counter\",direction=~\"out|\",location=\"$Location\"}[$__range]))/1000\n- sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range]))/1000)",
+          "hide": false,
+          "legendFormat": "Energiemenge",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Autarkiegrad",
+      "transformations": [],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "Fy5McwD4k"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "dark-blue",
+            "mode": "fixed"
+          },
+          "mappings": [
+            {
+              "options": {
+                "NaN": {
+                  "index": 0,
+                  "text": "0.00 %"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 4,
+        "y": 28
+      },
+      "id": 37,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Fy5McwD4k"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "100 - (100 / sum(increase(meter{position=\"generator\",type=\"counter\",location=\"$Location\"}[$__range]))\n*\nsum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range])) ) ",
+          "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
       ],
-      "timeFrom": "8d",
-      "timeShift": "0d+1d",
-      "title": "PV Total / Eigenverbrauch Total",
-      "transformations": [],
-      "type": "barchart"
+      "title": "Anteil Eigenverbrauch",
+      "type": "stat"
     },
     {
       "datasource": {
@@ -2742,8 +2849,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2840,7 +2946,7 @@
         "h": 6,
         "w": 8,
         "x": 8,
-        "y": 25
+        "y": 28
       },
       "hideTimeOverride": true,
       "id": 27,
@@ -2893,7 +2999,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"in\"}[1d] offset -1d))/1000 \n- sum(increase(meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"out\"}[1d] offset -1d))/1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>0)[1d:5s] offset -1d\n)  / 720 / 1000",
+          "expr": "sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"in\",location=\"$Location\"}[1d] offset -1d))/1000 \n- sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[1d] offset -1d))/1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"})[1d:5s] offset -1d\n)  / 720 / 1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>0)[1d:5s] offset -1d\n)  / 720 / 1000",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -2945,8 +3051,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2987,155 +3092,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Verbrauch"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "dark-blue",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 8,
-        "x": 16,
-        "y": 25
-      },
-      "hideTimeOverride": true,
-      "id": 58,
-      "interval": "7d",
-      "maxDataPoints": 1248,
-      "options": {
-        "barRadius": 0,
-        "barWidth": 0.97,
-        "groupWidth": 0.7,
-        "legend": {
-          "calcs": [
-            "mean"
-          ],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "orientation": "auto",
-        "showValue": "auto",
-        "stacking": "none",
-        "text": {
-          "valueSize": 12
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        },
-        "xField": "Time",
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 0
-      },
-      "pluginVersion": "9.2.4",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Fy5McwD4k"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "sum_over_time(\n    sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>100)[7d:5s] offset -7d\n)  / 720 / 1000",
-          "format": "time_series",
-          "hide": false,
-          "instant": false,
-          "interval": "",
-          "legendFormat": "PV",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Fy5McwD4k"
-          },
-          "editorMode": "code",
-          "expr": "sum(increase(meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"in\"}[7d] offset -7d))/1000 \n- sum(increase(meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"out\"}[7d] offset -7d))/1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>100)[7d:5s] offset -7d\n)  / 720 / 1000",
-          "hide": false,
-          "legendFormat": "Verbrauch",
-          "range": true,
-          "refId": "B"
-        }
-      ],
-      "timeFrom": "56d",
-      "timeShift": "0d+1d",
-      "title": "PV Total / Verbrauch Total pro Woche",
-      "type": "barchart"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "Fy5McwD4k"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "fixedColor": "dark-yellow",
-            "mode": "fixed"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineWidth": 1,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "kwatth"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Time"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "time:DD.MM."
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Batteriebezug"
+              "options": "Eigenverbrauch"
             },
             "properties": [
               {
@@ -3156,7 +3113,7 @@
         "y": 31
       },
       "hideTimeOverride": true,
-      "id": 68,
+      "id": 57,
       "interval": "1d",
       "maxDataPoints": 1248,
       "options": {
@@ -3173,7 +3130,7 @@
         },
         "orientation": "auto",
         "showValue": "auto",
-        "stacking": "none",
+        "stacking": "normal",
         "text": {
           "valueSize": 12
         },
@@ -3193,13 +3150,9 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "exemplar": false,
-          "expr": "max(\n sum_over_time((\n    meter{location=\"$Location\",position=\"battery\",type=\"gauge\"} >0)[1d:5s]\n )  / 720 / 1000\n)\n",
-          "format": "time_series",
+          "expr": "sum_over_time(\n    sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>0)[1d:5s] offset -1d\n)  / 720 / 1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"})[1d:5s] offset -1d\n)  / 720 / 1000\n- sum(increase(meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"out\"}[1d] offset -1d)/1000)",
           "hide": false,
-          "instant": false,
-          "interval": "",
-          "legendFormat": "Batteriebezug",
+          "legendFormat": "Eigenverbrauch",
           "range": true,
           "refId": "B"
         },
@@ -3210,129 +3163,18 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "max(\n sum_over_time((\n    meter{location=\"$Location\",position=\"battery\",type=\"gauge\"} >0 * scalar(tarif{location=\"$Location\",type=\"bezug\"}))[1d:5s]\n )  / 720 / 1000\n)\n",
+          "expr": "sum(increase(meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"out\"}[1d] offset -1d)/1000)",
           "format": "time_series",
-          "hide": true,
           "instant": false,
           "interval": "",
-          "legendFormat": "Batteriebezug",
+          "legendFormat": "PV",
           "range": true,
           "refId": "A"
         }
       ],
       "timeFrom": "8d",
       "timeShift": "0d+1d",
-      "title": "Batteriebezug",
-      "transformations": [],
-      "type": "barchart"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "Fy5McwD4k"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "fixedColor": "dark-purple",
-            "mode": "fixed"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineWidth": 1,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "kwatth"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Time"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "time:D.M"
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 8,
-        "x": 8,
-        "y": 31
-      },
-      "hideTimeOverride": true,
-      "id": 69,
-      "interval": "1d",
-      "options": {
-        "barRadius": 0,
-        "barWidth": 0.97,
-        "groupWidth": 0.7,
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "orientation": "auto",
-        "showValue": "auto",
-        "stacking": "none",
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        },
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 0
-      },
-      "pluginVersion": "9.3.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Fy5McwD4k"
-          },
-          "editorMode": "code",
-          "expr": "(max_over_time(sensor{kind=\"battery\",location=\"cham\",position=\"battery\",type=\"percent\"}[1d] offset -1d) - min_over_time(sensor{kind=\"battery\",location=\"cham\",position=\"battery\",type=\"percent\"}[1d] offset -1d))/100*19.32",
-          "legendFormat": "Batterienutzungsspektrum (19.32kWh)",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "timeFrom": "10d",
-      "timeShift": "0d+0d",
-      "title": "Batterie Spektrum",
+      "title": "PV Total / Eigenverbrauch Total",
       "transformations": [],
       "type": "barchart"
     },
@@ -3471,6 +3313,179 @@
         }
       ],
       "title": "WP",
+      "transformations": [],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "Fy5McwD4k"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "watt"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "PV Peak"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 8,
+        "y": 34
+      },
+      "id": 42,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Fy5McwD4k"
+          },
+          "editorMode": "code",
+          "expr": "sum(clamp_min(max_over_time(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}[$__range]),0))",
+          "legendFormat": "PV Peak",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "PV Peak",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "Fy5McwD4k"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "dark-blue",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Produktion"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 12,
+        "y": 34
+      },
+      "id": 55,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Fy5McwD4k"
+          },
+          "editorMode": "code",
+          "expr": "(avg_over_time(counter:meter:increase1day{location=\"$Location\", position=\"grid\", direction=\"in\"}[28d])>0 \n- scalar(avg_over_time(counter:meter:increase1day{location=\"$Location\", position=\"grid\", direction=\"out\"}[28d]) >0) \n- scalar(sum(avg_over_time(counter:meter:increase1day{location=\"$Location\", position=\"generator\", direction=~\"out|\"}[28d])>0))\n)\n/1000\n",
+          "legendFormat": "Verbrauch",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Fy5McwD4k"
+          },
+          "editorMode": "code",
+          "expr": "sum(avg_over_time(counter:meter:increase1day{location=\"$Location\", position=\"generator\"}[28d]))/1000\n",
+          "hide": false,
+          "legendFormat": "Produktion",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Tagesschnitt über 28 Tage",
       "transformations": [],
       "type": "stat"
     },
@@ -3682,6 +3697,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 210,
+  "version": 220,
   "weekStart": ""
 }
