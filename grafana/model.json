@@ -25,7 +25,134 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": 2,
-  "links": [],
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "5m",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://tom.li/grafana/d/ZDTJEXvVk/pv-cham?orgId=1&from=now-5m&to=now&refresh=5s"
+    },
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "6h",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://tom.li/grafana/d/ZDTJEXvVk/pv-cham?orgId=1&from=now-6h&to=now&refresh=5s"
+    },
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "12h",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://tom.li/grafana/d/ZDTJEXvVk/pv-cham?orgId=1&from=now-12h&to=now&refresh=5s"
+    },
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "24h",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://tom.li/grafana/d/ZDTJEXvVk/pv-cham?orgId=1&from=now-24h&to=now&refresh=5s"
+    },
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Y",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://tom.li/grafana/d/ZDTJEXvVk/pv-cham?orgId=1&from=now-1d%2Fd&to=now-1d%2Fd&refresh=5s"
+    },
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "T",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://tom.li/grafana/d/ZDTJEXvVk/pv-cham?orgId=1&from=now%2Fd&to=now&refresh=5s"
+    },
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "W",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://tom.li/grafana/d/ZDTJEXvVk/pv-cham?orgId=1&from=now-7d&to=now&refresh=5s"
+    },
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
+        "vergleich"
+      ],
+      "targetBlank": false,
+      "title": "PV Vergleich",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    },
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
+        "temp"
+      ],
+      "targetBlank": false,
+      "title": "Temperaturen",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    },
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
+        "strings"
+      ],
+      "targetBlank": false,
+      "title": "Strings",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    }
+  ],
   "liveNow": true,
   "panels": [
     {
@@ -2141,8 +2268,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2305,8 +2431,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2516,8 +2641,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2589,8 +2713,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2657,8 +2780,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2742,8 +2864,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2878,8 +2999,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3063,8 +3183,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3155,8 +3274,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3232,8 +3350,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3618,7 +3735,10 @@
   "refresh": "5s",
   "schemaVersion": 37,
   "style": "dark",
-  "tags": [],
+  "tags": [
+    "favoriten",
+    "location"
+  ],
   "templating": {
     "list": [
       {
@@ -3673,6 +3793,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 223,
+  "version": 233,
   "weekStart": ""
 }
