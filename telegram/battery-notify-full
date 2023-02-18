@@ -1,0 +1,18 @@
+#!/bin/bash
+# tomatnine.ch - 30.01.2023
+
+# notify as soon as battery is higher than 99%
+
+# check if notfication as been sent within last 18hrs
+if [ ! -f /tmp/battery-notify ] || [ ! -z "`find /tmp/battery-notify -mmin +1080`" ]; then
+  batt="`/home/tom/bin/battery-now | awk '{print $1}'`"
+  if (( $(echo "$batt > 99" |bc -l) )); then
+    echo "Batterie ist voll!" | /home/tom/bin/tg-stdin
+    date="`env LANG=de_CH date`"
+    echo "$date - Batterie voll" >> /home/tom/batterie-log
+    touch /tmp/battery-notify
+  fi
+
+fi
+
+

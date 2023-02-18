@@ -1,0 +1,10 @@
+#!/bin/bash
+# tomatnine.ch - 05.01.2023
+
+# SOC Wert aus Prometheus auslesen
+# Der Wert stammt aus dem Fronius Gen24 API /solar_api/v1/GetStorageRealtimeData.cgi
+# .Body.Data.0.Controller.StateOfCharge_Relative
+
+out="`promtool query instant http://localhost:9090 'sensor{position="battery",type="percent",location="cham"}' | cut -d\> -f2- | awk '{printf "%0.1f", $1}'`"
+
+echo "$out %"
