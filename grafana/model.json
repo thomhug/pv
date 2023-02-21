@@ -1821,6 +1821,7 @@
               "mode": "off"
             }
           },
+          "decimals": 1,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -2946,7 +2947,7 @@
         "x": 16,
         "y": 25
       },
-      "id": 71,
+      "id": 73,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
@@ -2954,7 +2955,7 @@
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
-            "lastNotNull"
+            "last"
           ],
           "fields": "",
           "values": false
@@ -2969,15 +2970,134 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "(\n- sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range])>0)/1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}>0)[$__range:5s]\n)  / 720 / 1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}<0)[$__range:5s]\n)  / 720 / 1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>0)[$__range:5s]\n)  / 720 / 1000)\n* scalar(tarif{location=\"$Location\",type=\"bezug\"}>0)/100\n+\nsum_over_time(\n    sum(sum(meter{location=\"$Location\",position=\"grid\",type=\"gauge\"}<0) * -1 * scalar(tarif{location=\"$Location\",type=\"einspeisung\"})/100>0)[$__range:5s]   \n)  / 720 / 1000 ",
+          "expr": "sum_over_time(\n (last_over_time((meter{location=\"$Location\",position=\"grid\",type=\"gauge\"}<0)[30s:10s])\n * scalar(last_over_time(((tarif {location=\"$Location\",type=\"bezug\"}>0)/100)[30s:10s])))[$__range:5s]\n) / 720 /1000",
           "hide": false,
-          "legendFormat": "__auto",
+          "legendFormat": "A",
           "range": true,
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Fy5McwD4k"
+          },
+          "editorMode": "code",
+          "expr": "sum_over_time(\n (last_over_time((meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}>0)[30s:10s])\n * scalar(last_over_time(((tarif {location=\"$Location\",type=\"bezug\"}>0)/100)[30s:10s])))[$__range:5s]\n) / 720 /1000",
+          "hide": false,
+          "legendFormat": "B",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Fy5McwD4k"
+          },
+          "editorMode": "code",
+          "expr": "+sum_over_time(\n (last_over_time((meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}<0)[30s:10s]) \n * scalar(last_over_time(((tarif {location=\"$Location\",type=\"bezug\"}>0)/100)[30s:10s])))[$__range:5s]\n) / 720 /1000",
+          "hide": false,
+          "legendFormat": "C",
+          "range": true,
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Fy5McwD4k"
+          },
+          "editorMode": "code",
+          "expr": "+sum_over_time(\n sum((last_over_time((meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>0)[30s:10s])) \n * scalar(last_over_time(((tarif {location=\"$Location\",type=\"bezug\"}>0)/100)[30s:10s])))[$__range:5s]\n) / 720 /1000",
+          "hide": false,
+          "legendFormat": "D",
+          "range": true,
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Fy5McwD4k"
+          },
+          "editorMode": "code",
+          "expr": "sum_over_time(\n (last_over_time((meter{location=\"$Location\",position=\"grid\",type=\"gauge\"}<0)[30s:10s]) * -1\n * scalar(last_over_time(((tarif {location=\"$Location\",type=\"einspeisung\"}>0)/100)[30s:10s])))[$__range:5s]\n) / 720 /1000 ",
+          "hide": false,
+          "legendFormat": "E",
+          "range": true,
+          "refId": "E"
         }
       ],
       "title": "Amortisation Total",
-      "transformations": [],
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "binary": {
+              "left": "A",
+              "reducer": "sum",
+              "right": "B"
+            },
+            "mode": "binary",
+            "reduce": {
+              "include": [
+                "Time",
+                "Test",
+                "{job=\"cham7\", location=\"cham\", position=\"battery\", type=\"gauge\"}",
+                "{description=\"gen24\", job=\"cham7\", location=\"cham\", position=\"generator\", type=\"gauge\"}",
+                "{description=\"symo\", job=\"cham10\", location=\"cham\", position=\"generator\", type=\"gauge\"}",
+                "{description=\"gen24\", job=\"cham7\", location=\"cham\", position=\"grid\", type=\"gauge\"}"
+              ],
+              "reducer": "sum"
+            },
+            "replaceFields": false
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "binary": {
+              "left": "A  B",
+              "reducer": "sum",
+              "right": "C"
+            },
+            "mode": "binary",
+            "reduce": {
+              "include": [
+                "C",
+                "A  B"
+              ],
+              "reducer": "sum"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "binary": {
+              "left": "A  B  C",
+              "reducer": "sum",
+              "right": "D"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "binary": {
+              "left": "A  B  C  D",
+              "reducer": "sum",
+              "right": "E"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
       "type": "stat"
     },
     {
@@ -3430,7 +3550,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "100 - (100 / \n(sum_over_time(\n    sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>0)[$__range:5s]\n)  / 720 / 1000)\n* \n(sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range])) / 1000 ))",
+          "expr": "100 - (100 / \n(sum_over_time(\n    sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>0)[$__range:5s]\n)  / 720 / 1000)\n* \n(sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range])) / 1000 ) <=100 or vector(0))",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -3835,6 +3955,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 293,
+  "version": 298,
   "weekStart": ""
 }
