@@ -2947,7 +2947,7 @@
         "x": 16,
         "y": 25
       },
-      "id": 73,
+      "id": 75,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
@@ -2970,7 +2970,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "sum_over_time(\n (last_over_time((meter{location=\"$Location\",position=\"grid\",type=\"gauge\"}<0)[30s:10s])\n * scalar(last_over_time(((tarif {location=\"$Location\",type=\"bezug\"}>0)/100)[30s:10s])))[$__range:5s]\n) / 720 /1000",
+          "expr": "sum_over_time(\n (last_over_time(sum((meter{location=\"$Location\",position=\"grid\",type=\"gauge\"}<0) or vector(0))[30s:10s])\n * scalar(last_over_time((sum((tarif {location=\"$Location\",type=\"bezug\"}>0) or vector(0))/100)[30s:10s])))[$__range:5s]\n) / 720 /1000",
           "hide": false,
           "legendFormat": "A",
           "range": true,
@@ -2982,7 +2982,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "sum_over_time(\n (last_over_time((meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}>0)[30s:10s])\n * scalar(last_over_time(((tarif {location=\"$Location\",type=\"bezug\"}>0)/100)[30s:10s])))[$__range:5s]\n) / 720 /1000",
+          "expr": "sum_over_time(\n (last_over_time(sum((meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}>0) or vector(0))[30s:10s])\n * scalar(last_over_time((sum((tarif {location=\"$Location\",type=\"bezug\"}>0)/100) or vector(0))[30s:10s])))[$__range:5s]\n) / 720 /1000",
           "hide": false,
           "legendFormat": "B",
           "range": true,
@@ -2994,7 +2994,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "+sum_over_time(\n (last_over_time((meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}<0)[30s:10s]) \n * scalar(last_over_time(((tarif {location=\"$Location\",type=\"bezug\"}>0)/100)[30s:10s])))[$__range:5s]\n) / 720 /1000",
+          "expr": "+sum_over_time(\n (last_over_time(sum((meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}<0) or vector(0))[30s:10s]) \n * scalar(last_over_time((sum((tarif {location=\"$Location\",type=\"bezug\"}>0)/100) or vector(0))[30s:10s])))[$__range:5s]\n) / 720 /1000",
           "hide": false,
           "legendFormat": "C",
           "range": true,
@@ -3006,7 +3006,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "+sum_over_time(\n sum((last_over_time((meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>0)[30s:10s])) \n * scalar(last_over_time(((tarif {location=\"$Location\",type=\"bezug\"}>0)/100)[30s:10s])))[$__range:5s]\n) / 720 /1000",
+          "expr": "+sum_over_time(\n sum((last_over_time(sum((meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>0) or vector(0))[30s:10s])) \n * scalar(last_over_time((sum((tarif {location=\"$Location\",type=\"bezug\"}>0)/100) or vector(0))[30s:10s])))[$__range:5s]\n) / 720 /1000",
           "hide": false,
           "legendFormat": "D",
           "range": true,
@@ -3018,7 +3018,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "sum_over_time(\n (last_over_time((meter{location=\"$Location\",position=\"grid\",type=\"gauge\"}<0)[30s:10s]) * -1\n * scalar(last_over_time(((tarif {location=\"$Location\",type=\"einspeisung\"}>0)/100)[30s:10s])))[$__range:5s]\n) / 720 /1000 ",
+          "expr": "sum_over_time(\n (last_over_time(sum((meter{location=\"$Location\",position=\"grid\",type=\"gauge\"}<0) or vector(0))[30s:10s]) * -1\n * scalar(last_over_time((sum((tarif {location=\"$Location\",type=\"einspeisung\"}>0)/100) or vector(0))[30s:10s])))[$__range:5s]\n) / 720 /1000 ",
           "hide": false,
           "legendFormat": "E",
           "range": true,
@@ -3955,6 +3955,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 298,
+  "version": 299,
   "weekStart": ""
 }
