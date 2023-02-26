@@ -136,6 +136,18 @@
     },
     {
       "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": true,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "FC",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://tom.li/grafana/d/ZDTJEXvVk/pv-cham?orgId=1&from=now-24h&to=now%2B24h&refresh=5s"
+    },
+    {
+      "asDropdown": false,
       "icon": "external link",
       "includeVars": false,
       "keepTime": false,
@@ -1050,6 +1062,63 @@
             ]
           },
           {
+            "matcher": {
+              "id": "byName",
+              "options": "Prognose"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 35
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Prognose_max"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "super-light-orange",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Prognose_min"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "super-light-orange",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 0
+              }
+            ]
+          },
+          {
             "__systemRef": "hideSeriesFrom",
             "matcher": {
               "id": "byNames",
@@ -1058,8 +1127,8 @@
                 "names": [
                   "Verbrauch",
                   "PV",
-                  "Batteriebezug",
                   "Batterie",
+                  "Batteriebezug",
                   "Sun altitude"
                 ],
                 "prefix": "All except:",
@@ -1210,6 +1279,35 @@
           "legendFormat": "PV Peak",
           "range": false,
           "refId": "E"
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "-3iI44oVz"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT from_unixtime(timestamp) as date, expected as Prognose, min as Prognose_min, max as Prognose_max FROM pv.prognose_live ",
+          "refId": "F",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
         }
       ],
       "title": "PV",
@@ -1686,7 +1784,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "max(\n sum_over_time((\n    meter{location=\"$Location\",position=\"battery\",type=\"gauge\"} >0)[$__range:5s]\n )  / 720 / 1000\n)\n\n",
+          "expr": "sum(\n sum_over_time((\n    meter{location=\"$Location\",position=\"battery\",type=\"gauge\"} >0)[$__range:5s]\n )  / 720 / 1000\n)\n\n",
           "legendFormat": "Bezug",
           "range": true,
           "refId": "A"
@@ -1697,7 +1795,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "max(\n  sum_over_time((\n    meter{location=\"$Location\",position=\"battery\",type=\"gauge\"} <0)[$__range:5s]\n  )  / 720 / 1000 *-1\n)",
+          "expr": "sum(\n  sum_over_time((\n    meter{location=\"$Location\",position=\"battery\",type=\"gauge\"} <0)[$__range:5s]\n  )  / 720 / 1000 *-1\n)",
           "hide": false,
           "legendFormat": "Ladung",
           "range": true,
@@ -3955,6 +4053,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 299,
+  "version": 303,
   "weekStart": ""
 }
