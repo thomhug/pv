@@ -11,36 +11,52 @@ regs = []
 
 # Aktuellen Wert lesen und ausgeben
 c = ModbusClient(host=SERVER_HOST, port=SERVER_PORT, auto_open=True)
+
+reg_list = c.read_holding_registers(40362-1, 1)
+regs = list(reg_list)
+decoder=BinaryPayloadDecoder.fromRegisters(regs, byteorder=Endian.Big)
+soc = decoder.decode_16bit_uint()
+print("Current SOC: " + str(soc/100) + "%")
+
+reg_list = c.read_holding_registers(40365-1, 1)
+regs = list(reg_list)
+decoder=BinaryPayloadDecoder.fromRegisters(regs, byteorder=Endian.Big)
+state = {1: "OFF", 2: "EMPTY", 3: "DISCHARGING", 4: "CHARGING", 5: "FULL", 6: "HOLDING",7: "TESTING"}
+print("Battery Status: " + state[decoder.decode_16bit_uint()])
+
 reg_list = c.read_holding_registers(40360, 1)
 regs = list(reg_list)
 decoder=BinaryPayloadDecoder.fromRegisters(regs, byteorder=Endian.Big)
 print("Current setting: " + str(decoder.decode_16bit_uint()))
 
-if len(sys.argv) == 1:
-  sys.argv[1] = decoder.decode_16bit_uint()
-
 reg_list = c.read_holding_registers(40370, 1)
 regs = list(reg_list)
 decoder=BinaryPayloadDecoder.fromRegisters(regs, byteorder=Endian.Big)
 print("Allow load from Grid (1 allowed): " + str(decoder.decode_16bit_uint()))
 
-# Neuen Wert schreiben in Promille Integer: 7% = 700 als Arg
-print("writing " + sys.argv[1] + " - default = 700 = 7%")
-c.write_single_register(40360, int(sys.argv[1]))
+if len(sys.argv) == 2:
+  # Wenn aktueller soc < setting, diesen Wert verwenden (sonst laedt die batt nach!)
+  if (soc <= int(sys.argv[1])):
+    sys.argv[1] = str(soc)
+
+  # Neuen Wert schreiben in Promille Integer: 7% = 700 als Arg
+  print("writing " + sys.argv[1] + " (default = 700 = 7%)")
+  c.write_single_register(40360, int(sys.argv[1]))
+  
+  # Kontrolle: nochmals lesen und ausgeben
+  reg_list = c.read_holding_registers(40360, 1)
+  regs = list(reg_list)
+  decoder=BinaryPayloadDecoder.fromRegisters(regs, byteorder=Endian.Big)
+  print("Read new setting: " + str(decoder.decode_16bit_uint()))
+
 
 if len(sys.argv) == 3 and (sys.argv[2] == "0" or sys.argv[2] == "1"):
   print("writing " + sys.argv[2] + " on allow load from grid")
   c.write_single_register(40370, int(sys.argv[2]))
 
-# Kontrolle: nochmals lesen und ausgeben
-reg_list = c.read_holding_registers(40360, 1)
-regs = list(reg_list)
-decoder=BinaryPayloadDecoder.fromRegisters(regs, byteorder=Endian.Big)
-print("New setting: " + str(decoder.decode_16bit_uint()))
-
-reg_list = c.read_holding_registers(40370, 1)
-regs = list(reg_list)
-decoder=BinaryPayloadDecoder.fromRegisters(regs, byteorder=Endian.Big)
-print("Allow load from Grid (1 allowed): " + str(decoder.decode_16bit_uint()))
+  reg_list = c.read_holding_registers(40370, 1)
+  regs = list(reg_list)
+  decoder=BinaryPayloadDecoder.fromRegisters(regs, byteorder=Endian.Big)
+  print("Allow load from Grid (1 allowed): " + str(decoder.decode_16bit_uint()))
 
 
