@@ -301,9 +301,9 @@
           "exemplar": false,
           "expr": "clamp_min(\n  meter{location=\"$Location\",position=\"grid\",type=\"gauge\"} + \n  scalar(sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"} >=0)) - \n  scalar(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}*-1)\n,0)",
           "format": "time_series",
-          "instant": true,
+          "instant": false,
           "legendFormat": "{{position}} / {{location}}",
-          "range": false,
+          "range": true,
           "refId": "A"
         },
         {
@@ -385,9 +385,9 @@
           "editorMode": "code",
           "exemplar": false,
           "expr": "meter{position=\"grid\",type=\"gauge\",location=\"$Location\"}",
-          "instant": true,
+          "instant": false,
           "legendFormat": "__auto",
-          "range": false,
+          "range": true,
           "refId": "A"
         }
       ],
@@ -547,9 +547,9 @@
           "exemplar": false,
           "expr": "meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}*-1",
           "format": "time_series",
-          "instant": true,
+          "instant": false,
           "legendFormat": "PV",
-          "range": false,
+          "range": true,
           "refId": "A"
         }
       ],
@@ -727,9 +727,9 @@
           "exemplar": false,
           "expr": "abs(meter{position=\"device\", description=\"Wärmepumpe\",type=\"gauge\",location=\"$Location\"})",
           "format": "time_series",
-          "instant": true,
+          "instant": false,
           "legendFormat": "{{position}} / {{location}}",
-          "range": false,
+          "range": true,
           "refId": "A"
         }
       ],
@@ -1289,7 +1289,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT from_unixtime(timestamp) as date, expected as Prognose, min as Prognose_min, max as Prognose_max FROM pv.prognose_live ",
+          "rawSql": "SELECT from_unixtime(timestamp - 3600) as date, expected as Prognose, min as Prognose_min, max as Prognose_max FROM pv.prognose_live ",
           "refId": "F",
           "sql": {
             "columns": [
@@ -3305,8 +3305,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3474,8 +3473,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3605,8 +3603,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3673,8 +3670,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3788,8 +3784,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3865,8 +3860,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -4053,6 +4047,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 303,
+  "version": 305,
   "weekStart": ""
 }
