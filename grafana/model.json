@@ -2414,7 +2414,8 @@
         "groupWidth": 0.7,
         "legend": {
           "calcs": [
-            "mean"
+            "mean",
+            "sum"
           ],
           "displayMode": "list",
           "placement": "bottom",
@@ -2427,7 +2428,7 @@
           "valueSize": 12
         },
         "tooltip": {
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         },
         "xField": "Time",
@@ -2607,7 +2608,8 @@
         "groupWidth": 0.7,
         "legend": {
           "calcs": [
-            "mean"
+            "mean",
+            "sum"
           ],
           "displayMode": "list",
           "placement": "bottom",
@@ -2620,7 +2622,7 @@
           "valueSize": 12
         },
         "tooltip": {
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         },
         "xField": "Time",
@@ -2799,7 +2801,8 @@
         "groupWidth": 0.7,
         "legend": {
           "calcs": [
-            "mean"
+            "mean",
+            "sum"
           ],
           "displayMode": "list",
           "placement": "bottom",
@@ -2812,7 +2815,7 @@
           "valueSize": 12
         },
         "tooltip": {
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         },
         "xField": "Time",
@@ -3215,8 +3218,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -4047,6 +4049,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 305,
+  "version": 307,
   "weekStart": ""
 }
