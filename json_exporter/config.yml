@@ -72,24 +72,6 @@ modules:
   moospi:
     metrics:
     - name: sensor
-      path: '{ .aussentemp }'
-      labels:
-        location: cham
-        type: temp
-        position: outdoor
-        kind: outdoor
-      epochTimestamp: "{ .timestamp }"
-
-    - name: sensor
-      path: '{ .boiler }'
-      labels:
-        location: cham
-        type: temp
-        position: boiler
-        kind: boiler
-      epochTimestamp: "{ .timestamp }"
-
-    - name: sensor
       path: '{ .wohnzimmertemp }'
       labels:
         location: cham
@@ -168,87 +150,6 @@ modules:
         type: temp
         position: Keller
         kind: indoor
-      epochTimestamp: "{ .timestamp }"
-
-    - name: sensor
-      path: '{ .betriebsart }'
-      labels:
-        location: cham
-        type: status
-        position: Betriebsart
-        kind: heizung
-      epochTimestamp: "{ .timestamp }"
-
-    - name: sensor
-      path: '{ .stoermeldung }'
-      labels:
-        location: cham
-        type: status
-        position: Störmeldungen
-        kind: heizung
-      epochTimestamp: "{ .timestamp }"
-
-    - name: sensor
-      path: '{ .rlsoll }'
-      labels:
-        location: cham
-        type: temp
-        position: Rücklaufsoll
-        kind: heizung
-      epochTimestamp: "{ .timestamp }"
-
-    - name: sensor
-      path: '{ .rlsoll2 }'
-      labels:
-        location: cham
-        type: temp
-        position: Rücklaufsoll2
-        kind: heizung
-      epochTimestamp: "{ .timestamp }"
-
-    - name: sensor
-      path: '{ .ruecklauftemp }'
-      labels:
-        location: cham
-        type: temp
-        position: Rücklauf
-        kind: heizung
-      epochTimestamp: "{ .timestamp }"
-
-    - name: sensor
-      path: '{ .vorlauf }'
-      labels:
-        location: cham
-        type: temp
-        position: Vorlauf
-        kind: heizung
-      epochTimestamp: "{ .timestamp }"
-
-    - name: sensor
-      path: '{ .vorlauf2 }'
-      labels:
-        location: cham
-        type: temp
-        position: Vorlauf2
-        kind: heizung
-      epochTimestamp: "{ .timestamp }"
-
-    - name: sensor
-      path: '{ .tauchheizkoerper }'
-      labels:
-        location: cham
-        type: status
-        position: Tauchheizkoerper
-        kind: heizung
-      epochTimestamp: "{ .timestamp }"
-
-    - name: sensor
-      path: '{ .status }'
-      labels:
-        location: cham
-        type: status
-        position: Heizung
-        kind: heizung
       epochTimestamp: "{ .timestamp }"
 
     - name: tarif
