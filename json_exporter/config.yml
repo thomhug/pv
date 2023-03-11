@@ -16,6 +16,15 @@ modules:
       epochTimestamp: "{ .unixtime }"
 
     - name: meter
+      path: '{ .emeters[0].power }'
+      labels:
+        location: cham
+        type: gauge
+        index: 1 
+        direction: in
+      epochTimestamp: "{ .unixtime }"
+
+    - name: meter
       path: '{ .emeters[0].total }'
       labels:
         location: cham
@@ -34,6 +43,15 @@ modules:
       epochTimestamp: "{ .unixtime }"
 
     - name: meter
+      path: '{ .emeters[1].power }'
+      labels:
+        location: cham
+        type: gauge
+        index: 2 
+        direction: in
+      epochTimestamp: "{ .unixtime }"
+
+    - name: meter
       path: '{ .emeters[1].total }'
       labels:
         location: cham
@@ -49,6 +67,15 @@ modules:
         location: cham
         type: counter
         direction: out
+      epochTimestamp: "{ .unixtime }"
+
+    - name: meter
+      path: '{ .emeters[2].power }'
+      labels:
+        location: cham
+        type: gauge
+        index: 3 
+        direction: in
       epochTimestamp: "{ .unixtime }"
 
     - name: meter
