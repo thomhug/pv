@@ -516,7 +516,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -587,7 +588,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "dark-red"
+                "color": "dark-red",
+                "value": null
               },
               {
                 "color": "dark-orange",
@@ -695,7 +697,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -766,7 +769,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -883,7 +887,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1341,7 +1346,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1409,7 +1415,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1476,7 +1483,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1544,7 +1552,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1611,7 +1620,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1679,7 +1689,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1746,7 +1757,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1825,7 +1837,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1928,7 +1941,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -2099,7 +2113,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -2292,7 +2307,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -2524,7 +2540,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -2717,7 +2734,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -2891,7 +2909,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -2963,7 +2982,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -3030,7 +3050,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -3063,7 +3084,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.2",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -3218,7 +3239,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -3251,7 +3273,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.2",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -3307,7 +3329,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -3375,6 +3398,7 @@
       "options": {
         "barRadius": 0,
         "barWidth": 0.97,
+        "fullHighlight": false,
         "groupWidth": 0.7,
         "legend": {
           "calcs": [
@@ -3475,7 +3499,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -3527,6 +3552,7 @@
       "options": {
         "barRadius": 0,
         "barWidth": 0.97,
+        "fullHighlight": false,
         "groupWidth": 0.7,
         "legend": {
           "calcs": [],
@@ -3605,7 +3631,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -3638,7 +3665,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.2",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -3672,7 +3699,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -3737,7 +3765,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.2",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -3786,7 +3814,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -3818,7 +3847,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.2",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -3941,61 +3970,25 @@
     "list": [
       {
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "cham",
           "value": "cham"
         },
+        "definition": "label_values(meter, location)",
         "hide": 0,
         "includeAll": false,
         "multi": false,
         "name": "Location",
-        "options": [
-          {
-            "selected": true,
-            "text": "cham",
-            "value": "cham"
-          },
-          {
-            "selected": false,
-            "text": "casacham",
-            "value": "casacham"
-          },
-          {
-            "selected": false,
-            "text": "eich",
-            "value": "eich"
-          },
-          {
-            "selected": false,
-            "text": "superzwu",
-            "value": "superzwu"
-          }
-        ],
-        "query": "cham, casacham, eich, superzwu",
-        "queryValue": "",
-        "skipUrlSync": false,
-        "type": "custom"
-      },
-      {
-        "current": {
-          "selected": false,
-          "text": "Cham",
-          "value": "Cham"
+        "options": [],
+        "query": {
+          "query": "label_values(meter, location)",
+          "refId": "StandardVariableQuery"
         },
-        "hide": 2,
-        "includeAll": false,
-        "multi": false,
-        "name": "Location_gross",
-        "options": [
-          {
-            "selected": true,
-            "text": "Cham",
-            "value": "Cham"
-          }
-        ],
-        "query": "Cham",
+        "refresh": 1,
+        "regex": "",
         "skipUrlSync": false,
-        "type": "custom"
+        "sort": 0,
+        "type": "query"
       },
       {
         "current": {
@@ -4055,6 +4048,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 311,
+  "version": 312,
   "weekStart": ""
 }
