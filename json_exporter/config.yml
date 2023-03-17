@@ -410,6 +410,24 @@ modules:
         direction: 
       epochTimestamp: "{ .Head.Timestamp }"
 
+    - name: meter
+      path: '{ .Body.Data.2.EnergyReal_WAC_Sum_Consumed }'
+      labels:
+        location: cham
+        position: regexdev2
+        type: counter
+        direction: in
+      epochTimestamp: "{ .Head.Timestamp }"
+
+    - name: meter
+      path: '{ .Body.Data.2.PowerReal_P_Sum }'
+      labels:
+        location: cham
+        position: regexdev2
+        type: gauge
+        direction: 
+      epochTimestamp: "{ .Head.Timestamp }"
+
   # mystrom /report
   mystromplug:
     metrics:
