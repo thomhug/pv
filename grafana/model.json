@@ -670,7 +670,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "scalar(sensor{location=\"$Location\",position=\"battery\",type=\"percent\"})*19.32/100",
+          "expr": "scalar(sensor{location=\"$Location\",position=\"battery\",type=\"percent\"})*$battery/100",
           "hide": false,
           "legendFormat": "Kapazität",
           "range": true,
@@ -3891,7 +3891,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -3940,7 +3941,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.2",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -3973,6 +3974,10 @@
           "selected": true,
           "text": "cham",
           "value": "cham"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "Fy5McwD4k"
         },
         "definition": "label_values(meter, location)",
         "hide": 0,
@@ -4010,9 +4015,14 @@
             "selected": false,
             "text": "22.0",
             "value": "22.0"
+          },
+          {
+            "selected": false,
+            "text": "13.8",
+            "value": "13.8"
           }
         ],
-        "query": "19.32, 22.0",
+        "query": "19.32, 22.0, 13.8",
         "queryValue": "",
         "skipUrlSync": false,
         "type": "custom"
@@ -4048,6 +4058,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 312,
+  "version": 313,
   "weekStart": ""
 }
