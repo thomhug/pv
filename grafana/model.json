@@ -3997,35 +3997,26 @@
       },
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "19.32",
           "value": "19.32"
         },
-        "hide": 0,
+        "datasource": {
+          "type": "mysql",
+          "uid": "-3iI44oVz"
+        },
+        "definition": "select battery from pv.config where location='$Location';",
+        "hide": 2,
         "includeAll": false,
         "multi": false,
         "name": "battery",
-        "options": [
-          {
-            "selected": true,
-            "text": "19.32",
-            "value": "19.32"
-          },
-          {
-            "selected": false,
-            "text": "22.0",
-            "value": "22.0"
-          },
-          {
-            "selected": false,
-            "text": "13.8",
-            "value": "13.8"
-          }
-        ],
-        "query": "19.32, 22.0, 13.8",
-        "queryValue": "",
+        "options": [],
+        "query": "select battery from pv.config where location='$Location';",
+        "refresh": 1,
+        "regex": "",
         "skipUrlSync": false,
-        "type": "custom"
+        "sort": 0,
+        "type": "query"
       },
       {
         "current": {
@@ -4058,6 +4049,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 313,
+  "version": 314,
   "weekStart": ""
 }
