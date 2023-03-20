@@ -151,7 +151,7 @@
     {
       "asDropdown": false,
       "icon": "external link",
-      "includeVars": false,
+      "includeVars": true,
       "keepTime": false,
       "tags": [
         "history"
@@ -179,7 +179,7 @@
     {
       "asDropdown": false,
       "icon": "external link",
-      "includeVars": false,
+      "includeVars": true,
       "keepTime": false,
       "tags": [
         "temp"
@@ -3329,8 +3329,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3499,8 +3498,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3631,8 +3629,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3699,8 +3696,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3814,8 +3810,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3891,8 +3886,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -4049,6 +4043,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 314,
+  "version": 315,
   "weekStart": ""
 }
