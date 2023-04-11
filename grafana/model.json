@@ -151,7 +151,7 @@
     {
       "asDropdown": false,
       "icon": "external link",
-      "includeVars": false,
+      "includeVars": true,
       "keepTime": false,
       "tags": [
         "history"
@@ -179,7 +179,7 @@
     {
       "asDropdown": false,
       "icon": "external link",
-      "includeVars": false,
+      "includeVars": true,
       "keepTime": false,
       "tags": [
         "temp"
@@ -670,7 +670,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "scalar(sensor{location=\"$Location\",position=\"battery\",type=\"percent\"})*19.32/100",
+          "expr": "scalar(sensor{location=\"$Location\",position=\"battery\",type=\"percent\"})*$battery/100",
           "hide": false,
           "legendFormat": "Kapazität",
           "range": true,
@@ -3479,16 +3479,26 @@
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
-            "fillOpacity": 80,
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
+            "lineInterpolation": "linear",
             "lineWidth": 1,
+            "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
             },
             "thresholdsStyle": {
               "mode": "off"
@@ -3526,9 +3536,48 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Ungenutzt"
+              "options": "Min"
             },
             "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "super-light-purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Max"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "left"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Min"
+            },
+            "properties": [
+              {
+                "id": "custom.axisPlacement",
+                "value": "left"
+              },
+              {
+                "id": "unit",
+                "value": "percent"
+              },
               {
                 "id": "color",
                 "value": {
@@ -3547,31 +3596,21 @@
         "y": 28
       },
       "hideTimeOverride": true,
-      "id": 69,
+      "id": 77,
       "interval": "1d",
       "options": {
-        "barRadius": 0,
-        "barWidth": 0.97,
-        "fullHighlight": false,
-        "groupWidth": 0.7,
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "mean"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
         },
-        "orientation": "auto",
-        "showValue": "auto",
-        "stacking": "percent",
-        "text": {
-          "valueSize": 12
-        },
         "tooltip": {
           "mode": "single",
           "sort": "none"
-        },
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 0
+        }
       },
       "pluginVersion": "9.3.2",
       "targets": [
@@ -3581,8 +3620,33 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "(max_over_time(sensor{kind=\"battery\",location=\"$Location\",position=\"battery\",type=\"percent\"}[1d] offset -1d) - min_over_time(sensor{kind=\"battery\",location=\"$Location\",position=\"battery\",type=\"percent\"}[1d] offset -1d))/100*$battery",
-          "legendFormat": "Batterienutzungsspektrum",
+          "expr": "$battery/100*(max_over_time(sensor{kind=\"battery\",location=\"$Location\",position=\"battery\",type=\"percent\"}[1d] offset -1d))",
+          "hide": true,
+          "legendFormat": "Max",
+          "range": true,
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Fy5McwD4k"
+          },
+          "editorMode": "code",
+          "expr": "$battery/100*(min_over_time(sensor{kind=\"battery\",location=\"$Location\",position=\"battery\",type=\"percent\"}[1d] offset -1d))",
+          "hide": true,
+          "legendFormat": "Min",
+          "range": true,
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Fy5McwD4k"
+          },
+          "editorMode": "code",
+          "expr": "max_over_time(sensor{kind=\"battery\",location=\"$Location\",position=\"battery\",type=\"percent\"}[1d] offset -1d)",
+          "hide": false,
+          "legendFormat": "Max",
           "range": true,
           "refId": "A"
         },
@@ -3592,18 +3656,18 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "$battery - (max_over_time(sensor{kind=\"battery\",location=\"$Location\",position=\"battery\",type=\"percent\"}[1d] offset -1d) - min_over_time(sensor{kind=\"battery\",location=\"$Location\",position=\"battery\",type=\"percent\"}[1d] offset -1d))/100*$battery",
+          "expr": "min_over_time(sensor{kind=\"battery\",location=\"$Location\",position=\"battery\",type=\"percent\"}[1d] offset -1d)",
           "hide": false,
-          "legendFormat": "Ungenutzt",
+          "legendFormat": "Min",
           "range": true,
           "refId": "B"
         }
       ],
-      "timeFrom": "7d",
+      "timeFrom": "2M",
       "timeShift": "0d+0d",
-      "title": "Batterie Spektrum ($battery kWh)",
+      "title": "Batterienutzung ($battery kWh)",
       "transformations": [],
-      "type": "barchart"
+      "type": "timeseries"
     },
     {
       "datasource": {
@@ -3891,7 +3955,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -3940,7 +4005,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.2",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -3963,8 +4028,7 @@
   "schemaVersion": 38,
   "style": "dark",
   "tags": [
-    "favoriten",
-    "location"
+    "favoriten"
   ],
   "templating": {
     "list": [
@@ -3973,6 +4037,10 @@
           "selected": true,
           "text": "cham",
           "value": "cham"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "Fy5McwD4k"
         },
         "definition": "label_values(meter, location)",
         "hide": 0,
@@ -3992,30 +4060,26 @@
       },
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "19.32",
           "value": "19.32"
         },
-        "hide": 0,
+        "datasource": {
+          "type": "mysql",
+          "uid": "-3iI44oVz"
+        },
+        "definition": "select battery from pv.config where location='$Location';",
+        "hide": 2,
         "includeAll": false,
         "multi": false,
         "name": "battery",
-        "options": [
-          {
-            "selected": true,
-            "text": "19.32",
-            "value": "19.32"
-          },
-          {
-            "selected": false,
-            "text": "22.0",
-            "value": "22.0"
-          }
-        ],
-        "query": "19.32, 22.0",
-        "queryValue": "",
+        "options": [],
+        "query": "select battery from pv.config where location='$Location';",
+        "refresh": 1,
+        "regex": "",
         "skipUrlSync": false,
-        "type": "custom"
+        "sort": 0,
+        "type": "query"
       },
       {
         "current": {
@@ -4048,6 +4112,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 312,
+  "version": 319,
   "weekStart": ""
 }
