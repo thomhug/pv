@@ -19,6 +19,9 @@ DallasTemperature sensors(&oneWire);
 // We'll use this variable to store a found device address
 DeviceAddress tempDeviceAddress;
 
+// Array to store all device addresses
+DeviceAddress tempDeviceAddresses[20];
+
 // Number of temperature devices found
 int numberOfDevices;
 
@@ -75,27 +78,20 @@ String readDSTemperatureJSON() {
   String output = "{\n";
   for(int i=0;i<numberOfDevices; i++) {
     // Search the wire for address
-    if(sensors.getAddress(tempDeviceAddress, i)) {
-      char addr_str[24];
-      snprintf(addr_str, sizeof(addr_str), "%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X",
-        tempDeviceAddress[0], tempDeviceAddress[1], tempDeviceAddress[2], tempDeviceAddress[3],
-        tempDeviceAddress[4], tempDeviceAddress[5], tempDeviceAddress[6], tempDeviceAddress[7]);
-      float tempC = sensors.getTempCByIndex(i);
-      if(tempC == -127.00) {
-        Serial.println("Failed to read from DS18B20 sensor");
-        return "{\”error\”: \"Failed to read from DS18B20 sensor" + String(i) + " \"}\n";
-      } else {
-        if ((i > 0) && (i < numberOfDevices)) output += ",\n";
-        output += "\"" + String(addr_str) + "\": " + String(tempC);
-        if (i == numberOfDevices -1) output += "\n";
-      }
+    char addr_str[24];
+    snprintf(addr_str, sizeof(addr_str), "%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X",
+      tempDeviceAddresses[i][0], tempDeviceAddresses[i][1], tempDeviceAddresses[i][2], tempDeviceAddresses[i][3],
+      tempDeviceAddresses[i][4], tempDeviceAddresses[i][5], tempDeviceAddresses[i][6], tempDeviceAddresses[i][7]);
+    float tempC = sensors.getTempC(tempDeviceAddresses[i]);
+    if(tempC == -127.00) {
+      Serial.println("Failed to read from DS18B20 sensor");
     } else {
-      Serial.print("Found ghost device at ");
-      Serial.print(i, DEC);
-      Serial.print(" but could not detect address. Check power and cabling");
+      output += "\"" + String(addr_str) + "\": " + String(tempC) + ",\n";
     }
+
   }
-  output += "}\n";
+  output.remove(output.length()-2);
+  output += "\n}\n";
   Serial.println("-----------------");
   return output;
 }
@@ -185,11 +181,11 @@ void setup(){
   // Loop through each device, print out address
   for(int i=0;i<numberOfDevices; i++){
     // Search the wire for address
-    if(sensors.getAddress(tempDeviceAddress, i)){
+    if(sensors.getAddress(tempDeviceAddresses[i], i)){
       Serial.print("Found device ");
       Serial.print(i, DEC);
       Serial.print(" with address: ");
-      printAddress(tempDeviceAddress);
+      printAddress(tempDeviceAddresses[i]);
       Serial.println();
     } else {
       Serial.print("Found ghost device at ");
@@ -233,9 +229,8 @@ void setup(){
  
 void loop(){
   if ((millis() - lastTime) > timerDelay) {
-    temperatureC = readDSTemperatureC();
     json = readDSTemperatureJSON();
+    temperatureC = readDSTemperatureC();
     lastTime = millis();
   }  
 }
-
