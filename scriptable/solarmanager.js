@@ -1,5 +1,6 @@
-const auth = "Basic xxx";
-const smid = "xxx";
+const config = importModule("config")
+const auth = config.auth
+const smid = config.smid
 
 const currentDate = new Date();
 const midnight = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 0, 0, 0);
