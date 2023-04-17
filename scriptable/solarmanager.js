@@ -3,9 +3,9 @@
 // icon-color: yellow; icon-glyph: magic;
 
 // Version 1.0
-const config = importModule("config")
-const auth = config.auth
-const smid = config.smid
+const config = importModule("config");
+const auth = config.auth;
+const smid = config.smid;
 
 const currentDate = new Date();
 const midnight = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 0, 0, 0);
