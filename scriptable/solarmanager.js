@@ -12,7 +12,7 @@ req.headers = {
   "authorization": auth
 }
 const json = await req.loadJSON();
-const data = obj['data'][0];
+const data = json['data'][0];
 const consumptionEnergy = data['consumption']/1000;
 const productionEnergy = data['production']/1000;
 
