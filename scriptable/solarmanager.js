@@ -30,8 +30,12 @@ const battery = json2.soc;
 // Erstellen Sie das Widget
 let widget = new ListWidget();
 
-widget.addText("Ertrag: " + productionEnergy + " kWh");
-widget.addText("Verbr: " + consumptionEnergy + " kWh");
+widget.addText("Ertrag: ");
+const text = widget.addText(productionEnergy + " kWh");
+text.textColor = Color.green();
+widget.addText("Verbr: ");
+const text2 = widget.addText(consumptionEnergy + " kWh");
+text2.textColor = Color.red();
 widget.addText("Batt: " + battery + "%");
 widget.addText("Temp: " + outdoorTemp + "°C");
 widget.addText("Boiler: " + warmWaterTemp + "°C");
