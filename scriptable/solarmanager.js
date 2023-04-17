@@ -6,34 +6,16 @@ const config = importModule("config");
 const auth = config.auth;
 const smid = config.smid;
 
-const currentDate = new Date();
-const midnight = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 0, 0, 0);
-const from = encodeURIComponent(midnight.toISOString());
-const to = encodeURIComponent(currentDate.toISOString());
-
-const url = "https://cloud.solar-manager.ch/v1/consumption/gateway/" + smid + "/range?from=" + from + "&to=" + to + "&interval=300000";
-const req = new Request(url);
+const req = new Request('https://cloud.solar-manager.ch/v1/consumption/gateway/' + smid + '?period=day');
 req.headers = {
   "accept": "application/json",
   "authorization": auth
 }
 const json = await req.loadJSON();
+const data = obj['data'][0];
+const consumptionEnergy = data['consumption']/1000;
+const productionEnergy = data['production']/1000;
 
-// Berechnen Sie die Energie für Verbrauch und Ertrag seit Mitternacht
-let consumptionEnergy = 0;
-let productionEnergy = 0;
-for (let i = 0; i < json.data.length; i++) {
-  let timeDiff = 0;
-  if (i === 0) {
-    timeDiff = Math.round((new Date(json.from).getTime() - midnight.getTime()) / 1000);
-  } else {
-    timeDiff = Math.round((new Date(json.data[i].date).getTime() - new Date(json.data[i - 1].date).getTime()) / 1000);
-  }
-  const consumption = json.data[i].cW;
-  const production = json.data[i].pW;
-  consumptionEnergy += (consumption / 1000) * (timeDiff / 3600);
-  productionEnergy += (production / 1000) * (timeDiff / 3600);
-}
 consumptionEnergy = Math.round(consumptionEnergy * 10) / 10; // Runden auf eine Nachkommastelle
 productionEnergy = Math.round(productionEnergy * 10) / 10; // Runden auf eine Nachkommastelle
 
