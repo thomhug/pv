@@ -50,7 +50,7 @@ let text32 = stack3.addText(pv + " kW")
 text32.textColor = Color.orange()
 
 widget.addText("Batt: " + battery + "%");
-widget.addText("T: " + outdoorTemp + "°C WW: " + warmWaterTemp + "°C");
+widget.addText("T: " + outdoorTemp + " W: " + warmWaterTemp + "°C");
 widget.addText("Zeit: " + new Date().getHours() + ":" + new Date().getMinutes().toString().padStart(2,"0"));
 
 if (config.runsInWidget) {
