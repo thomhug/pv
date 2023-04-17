@@ -1,8 +1,8 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: yellow; icon-glyph: magic;
-// Version 1.0
 
+// Version 1.0
 const config = importModule("config")
 const auth = config.auth
 const smid = config.smid
