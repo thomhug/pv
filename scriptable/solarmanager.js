@@ -16,21 +16,25 @@ const data = json['data'][0];
 const consumptionEnergy = Math.round(data['consumption']/1000 * 10) / 10; // Runden auf eine Nachkommastelle
 const productionEnergy = Math.round(data['production']/1000 * 10) / 10; // Runden auf eine Nachkommastelle
 
-const url2 = "https://cloud.solar-manager.ch/v1/chart/gateway/" + smid;
+const url2 = "https://cloud.solar-manager.ch/v1/stream/gateway/" + smid;
 const req2 = new Request(url2);
 req2.headers = {
   "accept": "application/json",
   "authorization": auth
 }
 const json2 = await req2.loadJSON();
-const battery = json2.battery.capacity;
+const warmWaterTemp = json2.devices.find(device => device.warmWaterTemp !== undefined)?.warmWaterTemp;
+const outdoorTemp = json2.devices.find(device => device.tempOutside !== undefined)?.tempOutside;
+const battery = json2.soc;
 
 // Erstellen Sie das Widget
 let widget = new ListWidget();
 
-widget.addText("Ertrag heute: " + productionEnergy + " kWh");
-widget.addText("Verbrauch: " + consumptionEnergy + " kWh");
-widget.addText("Batterie: " + battery + "%");
+widget.addText("Ertrag: " + productionEnergy + " kWh");
+widget.addText("Verbr: " + consumptionEnergy + " kWh");
+widget.addText("Batt: " + battery + "%");
+widget.addText("Temp: " + outdoorTemp + "%");
+widget.addText("Boiler: " + warmWaterTemp + "%");
 widget.addText("Zeit: " + new Date().getHours() + ":" + new Date().getMinutes().toString().padStart(2,"0"));
 
 if (config.runsInWidget) {
