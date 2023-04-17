@@ -26,6 +26,7 @@ const json2 = await req2.loadJSON();
 const warmWaterTemp = json2.devices.find(device => device.warmWaterTemp !== undefined)?.warmWaterTemp;
 const outdoorTemp = json2.devices.find(device => device.tempOutside !== undefined)?.tempOutside;
 const battery = json2.soc;
+const pv = Math.round(json2.currentPvGeneration /1000 * 10) / 10; // Runden auf eine Nachkommastelle
 
 // Erstellen Sie das Widget
 let widget = new ListWidget();
@@ -40,11 +41,16 @@ let stack2 = widget.addStack()
 let text21 = stack2.addText("Verbr: ")
 text21.textColor = Color.black()
 let text22 = stack2.addText(consumptionEnergy + " kWh")
-text22.textColor = Color.green()
+text22.textColor = Color.red()
+
+let stack3 = widget.addStack()
+let text31 = stack3.addText("PV: ")
+text31.textColor = Color.black()
+let text32 = stack3.addText(pv + " kW")
+text32.textColor = Color.orange()
 
 widget.addText("Batt: " + battery + "%");
-widget.addText("Temp: " + outdoorTemp + "°C");
-widget.addText("Boiler: " + warmWaterTemp + "°C");
+widget.addText("T: " + outdoorTemp + "°C WW: " + warmWaterTemp + "°C");
 widget.addText("Zeit: " + new Date().getHours() + ":" + new Date().getMinutes().toString().padStart(2,"0"));
 
 if (config.runsInWidget) {
