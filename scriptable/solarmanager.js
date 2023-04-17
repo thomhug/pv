@@ -13,11 +13,8 @@ req.headers = {
 }
 const json = await req.loadJSON();
 const data = json['data'][0];
-const consumptionEnergy = data['consumption']/1000;
-const productionEnergy = data['production']/1000;
-
-consumptionEnergy = Math.round(consumptionEnergy * 10) / 10; // Runden auf eine Nachkommastelle
-productionEnergy = Math.round(productionEnergy * 10) / 10; // Runden auf eine Nachkommastelle
+const consumptionEnergy = Math.round(data['consumption']/1000 * 10) / 10; // Runden auf eine Nachkommastelle
+const productionEnergy = Math.round(data['production']/1000 * 10) / 10; // Runden auf eine Nachkommastelle
 
 const url2 = "https://cloud.solar-manager.ch/v1/chart/gateway/" + smid;
 const req2 = new Request(url2);
