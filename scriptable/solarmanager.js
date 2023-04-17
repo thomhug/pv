@@ -1,7 +1,7 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: yellow; icon-glyph: magic;
-// Version 1.0.0
+// Version 1.0.1
 const config = importModule("config");
 const auth = config.auth;
 const smid = config.smid;
@@ -33,8 +33,8 @@ let widget = new ListWidget();
 widget.addText("Ertrag: " + productionEnergy + " kWh");
 widget.addText("Verbr: " + consumptionEnergy + " kWh");
 widget.addText("Batt: " + battery + "%");
-widget.addText("Temp: " + outdoorTemp + "%");
-widget.addText("Boiler: " + warmWaterTemp + "%");
+widget.addText("Temp: " + outdoorTemp + "°C");
+widget.addText("Boiler: " + warmWaterTemp + "°C");
 widget.addText("Zeit: " + new Date().getHours() + ":" + new Date().getMinutes().toString().padStart(2,"0"));
 
 if (config.runsInWidget) {
