@@ -10,12 +10,18 @@ try {
   const smid = config.smid;
 } catch (e) {
   // Modul nicht gefunden, verwende Standardkonfiguration
+  const username = "username";
+  const password = "password";
+  const smidDefault = "SolarManagerID";
+  const usernamePassword = `${username}:${password}`;
+  const authDefault = `Basic ${Data.fromString(usernamePassword).toBase64String()}`;
+
   config = {
-    let username = "username";
-    let password = "password";
-    let smid = "SolarManagerID";
-    let usernamePassword = `${username}:${password}`;
-    const auth = `Basic ${Data.fromString(usernamePassword).toBase64String()}`
+    auth: authDefault,
+    smid: smidDefault,
+    username: username,
+    password: password,
+    usernamePassword: usernamePassword
   };
 }
 
