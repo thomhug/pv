@@ -21,7 +21,7 @@ try {
   auth = `Basic ${Data.fromString(usernamePassword).toBase64String()}`;
 }
 
-const textsize = 13;
+const textsize = 14;
 const minimumScaleFactor = 0.5;
 
 const req = new Request('https://cloud.solar-manager.ch/v1/consumption/gateway/' + smid + '?period=day');
