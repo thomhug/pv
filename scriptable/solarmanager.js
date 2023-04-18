@@ -32,26 +32,26 @@ const pv = Math.round(json2.currentPvGeneration /1000 * 10) / 10; // Runden auf 
 let widget = new ListWidget();
 
 let stack1 = widget.addStack()
-let text11 = stack1.addText("Ertrag: ")
+let text11 = stack1.addText("🔆")
 text11.textColor = Color.black()
 let text12 = stack1.addText(productionEnergy + " kWh")
 text12.textColor = Color.green()
 
 let stack2 = widget.addStack()
-let text21 = stack2.addText("Verbr: ")
+let text21 = stack2.addText("🔌")
 text21.textColor = Color.black()
 let text22 = stack2.addText(consumptionEnergy + " kWh")
 text22.textColor = Color.red()
 
 let stack3 = widget.addStack()
-let text31 = stack3.addText("PV: ")
+let text31 = stack3.addText("☀️")
 text31.textColor = Color.black()
 let text32 = stack3.addText(pv + " kW")
 text32.textColor = Color.orange()
 
-widget.addText("Batt: " + battery + "%");
-widget.addText("T: " + outdoorTemp + " W: " + warmWaterTemp + "°C");
-widget.addText("Zeit: " + new Date().getHours() + ":" + new Date().getMinutes().toString().padStart(2,"0"));
+widget.addText("🔋" + battery + "%");
+widget.addText("🌡" + outdoorTemp + "°C 🚿" + warmWaterTemp + "°C");
+widget.addText("⏱" + new Date().getHours() + ":" + new Date().getMinutes().toString().padStart(2,"0"));
 
 if (config.runsInWidget) {
   // Platzieren Sie das Widget auf dem Startbildschirm des iPhones
