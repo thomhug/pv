@@ -13,8 +13,8 @@ req.headers = {
 }
 const json = await req.loadJSON();
 const data = json['data'][0];
-const consumptionEnergy = Math.round(data['consumption']/1000 * 10) / 10; // Runden auf eine Nachkommastelle
-const productionEnergy = Math.round(data['production']/1000 * 10) / 10; // Runden auf eine Nachkommastelle
+const consumptionEnergy = Math.round(data['consumption']/1000);
+const productionEnergy = Math.round(data['production']/1000); 
 
 const url2 = "https://cloud.solar-manager.ch/v1/stream/gateway/" + smid;
 const req2 = new Request(url2);
@@ -26,20 +26,19 @@ const json2 = await req2.loadJSON();
 const warmWaterTemp = json2.devices.find(device => device.warmWaterTemp !== undefined)?.warmWaterTemp;
 const outdoorTemp = json2.devices.find(device => device.tempOutside !== undefined)?.tempOutside;
 const battery = json2.soc;
-const pv = Math.round(json2.currentPvGeneration /1000 * 10) / 10; // Runden auf eine Nachkommastelle
+const currentPvGeneration = Math.round(json2.currentPvGeneration /1000 * 10) / 10; // Runden auf eine Nachkommastelle
+const currentPowerConsumption = Math.round(json2.currentPowerConsumption /1000 * 10) / 10; // Runden auf eine Nachkommastelle
 
 // Erstellen Sie das Widget
 let widget = new ListWidget();
 
-let text1 = widget.addText("☀️" + pv + "kW / " + productionEnergy + "kWh")
+let text1 = widget.addText("☀️" + currentPvGeneration + "kW/ " + productionEnergy + "kWh")
 text1.textColor = Color.orange();
 text1.font = Font.systemFont(13);
 
-let stack2 = widget.addStack()
-let text21 = stack2.addText("🔌")
-text21.textColor = Color.black()
-let text22 = stack2.addText(consumptionEnergy + " kWh")
-text22.textColor = Color.red()
+let text2 = widget.addText("🔌" + currentPowerConsumption + "kW/ " + consumptionEnergy + " kWh")
+text2.textColor = Color.blue()
+text2.font = Font.systemFont(13);
 
 let temptext = widget.addText("🌡" + outdoorTemp + "°C 🚿" + warmWaterTemp + "°C");
 temptext.font = Font.systemFont(13);
