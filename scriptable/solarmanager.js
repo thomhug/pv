@@ -2,9 +2,23 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: yellow; icon-glyph: magic;
 // Version 1.0.1
-const config = importModule("config");
-const auth = config.auth;
-const smid = config.smid;
+
+let config;
+try {
+  config = importModule("config");
+  const auth = config.auth;
+  const smid = config.smid;
+} catch (e) {
+  // Modul nicht gefunden, verwende Standardkonfiguration
+  config = {
+    let username = "username";
+    let password = "password";
+    let smid = "SolarManagerID";
+    let usernamePassword = `${username}:${password}`;
+    const auth = `Basic ${Data.fromString(usernamePassword).toBase64String()}`
+  };
+}
+
 const textsize = 13;
 const minimumScaleFactor = 0.5;
 
