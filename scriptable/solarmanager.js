@@ -4,10 +4,12 @@
 // Version 1.0.1
 
 let config;
+let smid;
+let auth;
 try {
   config = importModule("config");
-  const auth = config.auth;
-  const smid = config.smid;
+  auth = config.auth;
+  smid = config.smid;
 } catch (e) {
   // Modul nicht gefunden, verwende Standardkonfiguration
   const username = "username";
