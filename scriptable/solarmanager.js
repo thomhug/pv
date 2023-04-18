@@ -60,7 +60,7 @@ text2.textColor = Color.blue()
 text2.font = Font.systemFont(textsize);
 text2.minimumScaleFactor = minimumScaleFactor;
 
-let temptext = widget.addText("🌡" + outdoorTemp + "°C 🚿" + warmWaterTemp + "°C");
+let temptext = widget.addText("🌡" + outdoorTemp + "°C🚿" + warmWaterTemp + "°C");
 temptext.font = Font.systemFont(textsize);
 temptext.minimumScaleFactor = minimumScaleFactor;
 
