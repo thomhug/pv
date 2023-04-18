@@ -31,7 +31,7 @@ const pv = Math.round(json2.currentPvGeneration /1000 * 10) / 10; // Runden auf 
 // Erstellen Sie das Widget
 let widget = new ListWidget();
 
-let text1 = stack1.addText("☀️" + pv + "kW / " + productionEnergy + "kWh")
+let text1 = widget.addText("☀️" + pv + "kW / " + productionEnergy + "kWh")
 text1.textColor = Color.orange();
 text1.font = Font.systemFont(13);
 
