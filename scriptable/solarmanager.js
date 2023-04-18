@@ -12,11 +12,11 @@ try {
   // Modul nicht gefunden, verwende Standardkonfiguration
   const username = "username";
   const password = "password";
-  const smid = "SolarManagerID";
+  smid = "SolarManagerID";
   
   // generiere Token
   const usernamePassword = `${username}:${password}`;
-  const auth = `Basic ${Data.fromString(usernamePassword).toBase64String()}`;
+  auth = `Basic ${Data.fromString(usernamePassword).toBase64String()}`;
 }
 
 const textsize = 13;
