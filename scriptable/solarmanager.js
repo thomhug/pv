@@ -5,6 +5,8 @@
 const config = importModule("config");
 const auth = config.auth;
 const smid = config.smid;
+const textsize = 13;
+const minimumScaleFactor = 0.5;
 
 const req = new Request('https://cloud.solar-manager.ch/v1/consumption/gateway/' + smid + '?period=day');
 req.headers = {
@@ -34,21 +36,21 @@ let widget = new ListWidget();
 
 let text1 = widget.addText("☀️" + currentPvGeneration + "kW/ " + productionEnergy + "kWh")
 text1.textColor = Color.orange();
-text1.font = Font.systemFont(15);
-text1.minimumScaleFactor = 0.5;
+text1.font = Font.systemFont(textsize);
+text1.minimumScaleFactor = minimumScaleFactor;
 
 let text2 = widget.addText("🔌" + currentPowerConsumption + "kW/ " + consumptionEnergy + " kWh")
 text2.textColor = Color.blue()
-text2.font = Font.systemFont(15);
-text2.minimumScaleFactor = 0.5;
+text2.font = Font.systemFont(textsize);
+text2.minimumScaleFactor = minimumScaleFactor;
 
 let temptext = widget.addText("🌡" + outdoorTemp + "°C 🚿" + warmWaterTemp + "°C");
-temptext.font = Font.systemFont(15);
-temptext.minimumScaleFactor = 0.5;
+temptext.font = Font.systemFont(textsize);
+temptext.minimumScaleFactor = minimumScaleFactor;
 
 let timetext = widget.addText("🔋" + battery + "% ⏱" + new Date().getHours() + ":" + new Date().getMinutes().toString().padStart(2,"0"));
-timetext.font = Font.systemFont(15);
-timetext.minimumScaleFactor = 0.5;
+timetext.font = Font.systemFont(textsize);
+timetext.minimumScaleFactor = minimumScaleFactor;
 
 if (config.runsInWidget) {
   // Platzieren Sie das Widget auf dem Startbildschirm des iPhones
