@@ -30,7 +30,17 @@ req.headers = {
   "authorization": auth
 }
 const json = await req.loadJSON();
-const data = json['data'][0];
+
+try {
+  data = json['data'][0];
+} catch (e) {
+  let widget = new ListWidget();
+  let text1 = widget.addText("Zugangsdaten oder SolarmanagerID falsch.")
+  Script.setWidget(widget);
+  Script.complete();
+  return;
+}
+
 const consumptionEnergy = Math.round(data['consumption']/1000);
 const productionEnergy = Math.round(data['production']/1000); 
 
