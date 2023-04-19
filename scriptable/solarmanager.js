@@ -3,13 +3,13 @@
 // icon-color: yellow; icon-glyph: magic;
 // Version 1.0.1
 
-let config;
+let configfile;
 let smid;
 let auth;
 try {
-  config = importModule("config");
-  auth = config.auth;
-  smid = config.smid;
+  configfile = importModule("config");
+  auth = configfile.auth;
+  smid = configfile.smid;
 } catch (e) {
   // Modul nicht gefunden, verwende Standardkonfiguration
   const username = "username";
