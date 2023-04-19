@@ -35,7 +35,8 @@ try {
   data = json['data'][0];
 } catch (e) {
   let widget = new ListWidget();
-  let text1 = widget.addText("Zugangsdaten oder SolarmanagerID falsch.")
+  let text1 = widget.addText("Zugangsdaten oder SolarmanagerID falsch.");
+  console.log("Zugangsdaten oder SolarmanagerID falsch.");
   Script.setWidget(widget);
   Script.complete();
   return;
