@@ -1,7 +1,7 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
-// icon-color: yellow; icon-glyph: magic;
-// Version 1.0.1
+// icon-color: yellow; icon-glyph: 
+// Version 1.0.2
 
 let configfile;
 let smid;
@@ -21,7 +21,7 @@ try {
   auth = `Basic ${Data.fromString(usernamePassword).toBase64String()}`;
 }
 
-const textsize = 14;
+const textsize = 15;
 const minimumScaleFactor = 0.5;
 
 const req = new Request('https://cloud.solar-manager.ch/v1/consumption/gateway/' + smid + '?period=day');
@@ -61,23 +61,27 @@ const currentPowerConsumption = Math.round(json2.currentPowerConsumption /1000 *
 // Erstellen Sie das Widget
 let widget = new ListWidget();
 
-let text1 = widget.addText("☀️" + currentPvGeneration + "kW/ " + productionEnergy + "kWh")
+let text1 = widget.addText("☀️" + currentPvGeneration + "kW / " + productionEnergy + "kWh")
 text1.textColor = Color.orange();
 text1.font = Font.systemFont(textsize);
 text1.minimumScaleFactor = minimumScaleFactor;
+text1.lineLimit = 1;
 
-let text2 = widget.addText("🔌" + currentPowerConsumption + "kW/ " + consumptionEnergy + " kWh")
+let text2 = widget.addText("🔌" + currentPowerConsumption + "kW / " + consumptionEnergy + " kWh")
 text2.textColor = Color.blue()
 text2.font = Font.systemFont(textsize);
 text2.minimumScaleFactor = minimumScaleFactor;
+text2.lineLimit = 1;
 
 let temptext = widget.addText("🌡" + outdoorTemp + "°C🚿" + warmWaterTemp + "°C");
 temptext.font = Font.systemFont(textsize);
 temptext.minimumScaleFactor = minimumScaleFactor;
+temptext.lineLimit = 1;
 
-let timetext = widget.addText("🔋" + battery + "% ⏱" + new Date().getHours() + ":" + new Date().getMinutes().toString().padStart(2,"0"));
+let timetext = widget.addText("🔋" + battery + "% ⏱ " + new Date().getHours() + ":" + new Date().getMinutes().toString().padStart(2,"0"));
 timetext.font = Font.systemFont(textsize);
 timetext.minimumScaleFactor = minimumScaleFactor;
+timetext.lineLimit = 1;
 
 if (config.runsInWidget) {
   // Platzieren Sie das Widget auf dem Startbildschirm des iPhones
