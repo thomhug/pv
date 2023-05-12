@@ -4,6 +4,8 @@ Scripts und Configs um ein PV Dashboard wie dieses zu machen:
 Neue Version mit Batterieanzeige:
 ![Dashboard Februar 2023](https://github.com/thomhug/pv/blob/main/pv%20dashboard%202023-02-21.jpg)
 
+Mehr Dashboards in folgendem Twitter Thread von mir: https://twitter.com/tomdawon/status/1643496217370918914
+
 Grobe Funktionsweise:
 
 - Auf einem RaspberryPi im LAN/Wifi mit einem Fronius Wechselrichter, Shelly 3EM's, myStrom Steckdosen und anderen Geräten läuft ein json_exporter (https://github.com/prometheus-community/json_exporter). Die Config vom json_exporter beschreibt, was wo ist in den jeweiligen APIs von den Geräten.
