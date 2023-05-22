@@ -585,7 +585,7 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 3,
+        "w": 4,
         "x": 12,
         "y": 0
       },
@@ -681,8 +681,8 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 3,
-        "x": 15,
+        "w": 4,
+        "x": 16,
         "y": 0
       },
       "id": 46,
@@ -764,8 +764,8 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 3,
-        "x": 18,
+        "w": 4,
+        "x": 20,
         "y": 0
       },
       "id": 24,
@@ -799,122 +799,6 @@
         }
       ],
       "title": "Boiler",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "Fy5McwD4k"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 1,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Zeit"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "dark-blue",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Energiemenge"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "dark-blue",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 3,
-        "x": 21,
-        "y": 0
-      },
-      "id": 38,
-      "maxDataPoints": 100,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "last"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.5.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Fy5McwD4k"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "sum(avg_over_time((meter{position=\"grid\",type=\"gauge\",location=\"$Location\"}< bool 20)[$__range:30m] )*100)",
-          "format": "time_series",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "Zeit",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Fy5McwD4k"
-          },
-          "editorMode": "code",
-          "expr": "100-100/(\n  sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"in\",location=\"$Location\"}[$__range]))/1000 \n  - sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range]))/1000\n  + sum_over_time(\n    sum(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"})[$__range:5s]\n  )  / 720 / 1000\n  + sum_over_time(\n    sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>0)[$__range:5s]\n  )  / 720 / 1000\n)\n*\n(\n  sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"in\",location=\"$Location\"}[$__range]))/1000\n)\n\n\n",
-          "hide": false,
-          "legendFormat": "Energiemenge",
-          "range": true,
-          "refId": "B"
-        }
-      ],
-      "title": "Autarkiegrad",
-      "transformations": [],
       "type": "stat"
     },
     {
@@ -1696,8 +1580,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "fixedColor": "dark-purple",
-            "mode": "fixed"
+            "mode": "thresholds"
           },
           "decimals": 1,
           "mappings": [],
@@ -1714,18 +1597,49 @@
               }
             ]
           },
-          "unit": "suffix:kWh"
+          "unit": "percent"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Zeit"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Energiemenge"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 3,
-        "w": 3,
+        "w": 4,
         "x": 12,
         "y": 13
       },
-      "id": 20,
-      "maxDataPoints": 1000,
+      "id": 38,
+      "maxDataPoints": 100,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
@@ -1733,7 +1647,7 @@
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
-            "lastNotNull"
+            "last"
           ],
           "fields": "",
           "values": false
@@ -1748,13 +1662,29 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "sum_over_time(\n    sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>0)[$__range:5s]\n)  / 720 / 1000\n- sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range]))/1000 >=0",
-          "legendFormat": "__auto",
+          "exemplar": false,
+          "expr": "sum(avg_over_time((meter{position=\"grid\",type=\"gauge\",location=\"$Location\"}< bool 20)[$__range:30m] )*100)",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "Zeit",
           "range": true,
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Fy5McwD4k"
+          },
+          "editorMode": "code",
+          "expr": "100-100/(\n  sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"in\",location=\"$Location\"}[$__range]))/1000 \n  - sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range]))/1000\n  + sum_over_time(\n    sum(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"})[$__range:5s]\n  )  / 720 / 1000\n  + sum_over_time(\n    sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>0)[$__range:5s]\n  )  / 720 / 1000\n)\n*\n(\n  sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"in\",location=\"$Location\"}[$__range]))/1000\n)\n\n\n",
+          "hide": false,
+          "legendFormat": "Energiemenge",
+          "range": true,
+          "refId": "B"
         }
       ],
-      "title": "Eigenverbrauch Total",
+      "title": "Autarkiegrad",
       "transformations": [],
       "type": "stat"
     },
@@ -1862,9 +1792,7 @@
         "orientation": "auto",
         "showValue": "auto",
         "stacking": "none",
-        "text": {
-          "valueSize": 12
-        },
+        "text": {},
         "tooltip": {
           "mode": "single",
           "sort": "none"
@@ -2065,9 +1993,7 @@
         "orientation": "auto",
         "showValue": "auto",
         "stacking": "normal",
-        "text": {
-          "valueSize": 12
-        },
+        "text": {},
         "tooltip": {
           "mode": "multi",
           "sort": "none"
@@ -2118,7 +2044,7 @@
           "refId": "A"
         }
       ],
-      "timeFrom": "8d",
+      "timeFrom": "7d",
       "timeShift": "0d+1d",
       "title": "PV Total / Verwendung",
       "transformations": [],
@@ -2259,9 +2185,7 @@
         "orientation": "auto",
         "showValue": "always",
         "stacking": "normal",
-        "text": {
-          "valueSize": 12
-        },
+        "text": {},
         "tooltip": {
           "mode": "multi",
           "sort": "none"
@@ -2461,9 +2385,7 @@
         "orientation": "auto",
         "showValue": "always",
         "stacking": "normal",
-        "text": {
-          "valueSize": 12
-        },
+        "text": {},
         "tooltip": {
           "mode": "single",
           "sort": "none"
@@ -2603,6 +2525,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 332,
+  "version": 335,
   "weekStart": ""
 }
