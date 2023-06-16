@@ -287,7 +287,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.5.3",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
@@ -372,7 +372,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.5.3",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
@@ -443,7 +443,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.5.3",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
@@ -558,7 +558,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.5.3",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
@@ -654,7 +654,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.5.3",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
@@ -737,7 +737,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.5.3",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
@@ -1299,7 +1299,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.5.3",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
@@ -1369,7 +1369,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.5.3",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
@@ -1438,7 +1438,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.5.3",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
@@ -1508,7 +1508,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.5.3",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
@@ -1607,7 +1607,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.5.3",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
@@ -1745,7 +1745,9 @@
         "orientation": "auto",
         "showValue": "auto",
         "stacking": "none",
-        "text": {},
+        "text": {
+          "valueSize": 10
+        },
         "tooltip": {
           "mode": "single",
           "sort": "none"
@@ -2233,7 +2235,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -2337,7 +2340,9 @@
         "orientation": "auto",
         "showValue": "always",
         "stacking": "normal",
-        "text": {},
+        "text": {
+          "valueSize": 10
+        },
         "tooltip": {
           "mode": "single",
           "sort": "none"
@@ -2477,6 +2482,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 336,
+  "version": 337,
   "weekStart": ""
 }
