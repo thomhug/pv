@@ -287,7 +287,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "9.5.3",
       "targets": [
         {
           "datasource": {
@@ -372,7 +372,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "9.5.3",
       "targets": [
         {
           "datasource": {
@@ -443,7 +443,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "9.5.3",
       "targets": [
         {
           "datasource": {
@@ -558,7 +558,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "9.5.3",
       "targets": [
         {
           "datasource": {
@@ -654,7 +654,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "9.5.3",
       "targets": [
         {
           "datasource": {
@@ -737,7 +737,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "9.5.3",
       "targets": [
         {
           "datasource": {
@@ -1299,7 +1299,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "9.5.3",
       "targets": [
         {
           "datasource": {
@@ -1369,7 +1369,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "9.5.3",
       "targets": [
         {
           "datasource": {
@@ -1438,7 +1438,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "9.5.3",
       "targets": [
         {
           "datasource": {
@@ -1508,7 +1508,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "9.5.3",
       "targets": [
         {
           "datasource": {
@@ -1607,7 +1607,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "9.5.3",
       "targets": [
         {
           "datasource": {
@@ -1948,7 +1948,9 @@
         "orientation": "auto",
         "showValue": "auto",
         "stacking": "normal",
-        "text": {},
+        "text": {
+          "valueSize": 10
+        },
         "tooltip": {
           "mode": "multi",
           "sort": "none"
@@ -2482,6 +2484,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 337,
+  "version": 338,
   "weekStart": ""
 }
