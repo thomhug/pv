@@ -231,6 +231,20 @@
       "tooltip": "",
       "type": "dashboards",
       "url": ""
+    },
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
+        "rebacker"
+      ],
+      "targetBlank": false,
+      "title": "Rebacker",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
     }
   ],
   "liveNow": true,
@@ -287,7 +301,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "10.0.2",
       "targets": [
         {
           "datasource": {
@@ -372,7 +386,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "10.0.2",
       "targets": [
         {
           "datasource": {
@@ -443,7 +457,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "10.0.2",
       "targets": [
         {
           "datasource": {
@@ -558,7 +572,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "10.0.2",
       "targets": [
         {
           "datasource": {
@@ -654,7 +668,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "10.0.2",
       "targets": [
         {
           "datasource": {
@@ -737,7 +751,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "10.0.2",
       "targets": [
         {
           "datasource": {
@@ -1299,7 +1313,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "10.0.2",
       "targets": [
         {
           "datasource": {
@@ -1369,7 +1383,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "10.0.2",
       "targets": [
         {
           "datasource": {
@@ -1438,7 +1452,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "10.0.2",
       "targets": [
         {
           "datasource": {
@@ -1508,7 +1522,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "10.0.2",
       "targets": [
         {
           "datasource": {
@@ -1607,7 +1621,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "10.0.2",
       "targets": [
         {
           "datasource": {
@@ -2484,6 +2498,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 339,
+  "version": 340,
   "weekStart": ""
 }
