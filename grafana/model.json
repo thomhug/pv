@@ -285,6 +285,7 @@
         "x": 0,
         "y": 0
       },
+      "hideTimeOverride": true,
       "id": 48,
       "maxDataPoints": 6000,
       "options": {
@@ -330,6 +331,7 @@
           "refId": "B"
         }
       ],
+      "timeFrom": "5s",
       "title": "Verbrauch",
       "transformations": [],
       "type": "stat"
@@ -370,6 +372,7 @@
         "x": 3,
         "y": 0
       },
+      "hideTimeOverride": true,
       "id": 50,
       "maxDataPoints": 6000,
       "options": {
@@ -402,6 +405,7 @@
           "refId": "A"
         }
       ],
+      "timeFrom": "5s",
       "title": "EW",
       "type": "stat"
     },
@@ -441,6 +445,7 @@
         "x": 6,
         "y": 0
       },
+      "hideTimeOverride": true,
       "id": 64,
       "maxDataPoints": 6000,
       "options": {
@@ -490,6 +495,7 @@
           "refId": "B"
         }
       ],
+      "timeFrom": "5s",
       "title": "PV",
       "transformations": [],
       "type": "stat"
@@ -557,7 +563,7 @@
         "y": 0
       },
       "id": 63,
-      "maxDataPoints": 6000,
+      "interval": "1m",
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -736,7 +742,7 @@
         "y": 0
       },
       "id": 24,
-      "maxDataPoints": 1000,
+      "interval": "1m",
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -1298,7 +1304,7 @@
         "y": 13
       },
       "id": 16,
-      "maxDataPoints": 1000,
+      "interval": "1m",
       "options": {
         "colorMode": "value",
         "graphMode": "none",
@@ -1368,6 +1374,7 @@
         "y": 13
       },
       "id": 14,
+      "interval": "1m",
       "maxDataPoints": 1000,
       "options": {
         "colorMode": "value",
@@ -1437,6 +1444,7 @@
         "y": 13
       },
       "id": 13,
+      "interval": "1m",
       "maxDataPoints": 1000,
       "options": {
         "colorMode": "value",
@@ -1507,6 +1515,7 @@
         "y": 13
       },
       "id": 15,
+      "interval": "1m",
       "maxDataPoints": 1000,
       "options": {
         "colorMode": "value",
@@ -1606,7 +1615,7 @@
         "y": 13
       },
       "id": 38,
-      "maxDataPoints": 100,
+      "interval": "5m",
       "options": {
         "colorMode": "value",
         "graphMode": "none",
@@ -1944,7 +1953,6 @@
       "hideTimeOverride": true,
       "id": 57,
       "interval": "1d",
-      "maxDataPoints": 1248,
       "options": {
         "barRadius": 0,
         "barWidth": 0.97,
@@ -2498,6 +2506,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 340,
+  "version": 343,
   "weekStart": ""
 }
