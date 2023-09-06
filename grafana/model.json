@@ -302,7 +302,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.2",
+      "pluginVersion": "10.1.0",
       "targets": [
         {
           "datasource": {
@@ -389,7 +389,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.2",
+      "pluginVersion": "10.1.0",
       "targets": [
         {
           "datasource": {
@@ -462,7 +462,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.2",
+      "pluginVersion": "10.1.0",
       "targets": [
         {
           "datasource": {
@@ -578,7 +578,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.2",
+      "pluginVersion": "10.1.0",
       "targets": [
         {
           "datasource": {
@@ -674,7 +674,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.2",
+      "pluginVersion": "10.1.0",
       "targets": [
         {
           "datasource": {
@@ -757,7 +757,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.2",
+      "pluginVersion": "10.1.0",
       "targets": [
         {
           "datasource": {
@@ -799,6 +799,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineStyle": {
               "fill": "solid"
@@ -1319,7 +1320,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.2",
+      "pluginVersion": "10.1.0",
       "targets": [
         {
           "datasource": {
@@ -1327,7 +1328,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"in\",location=\"$Location\"}[$__range]))/1000 \n- sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range]))/1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}>0)[$__range:5s]\n)  / 720 / 1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}<0)[$__range:5s]\n)  / 720 / 1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>0)[$__range:5s]\n)  / 720 / 1000",
+          "expr": "sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"in\",location=\"$Location\"}[$__range]))/1000 \n- sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range]))/1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}>=0)[$__range:5s]\n)  / 720 / 1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}<=0)[$__range:5s]\n)  / 720 / 1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>=0)[$__range:5s]\n)  / 720 / 1000",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -1390,7 +1391,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.2",
+      "pluginVersion": "10.1.0",
       "targets": [
         {
           "datasource": {
@@ -1460,7 +1461,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.2",
+      "pluginVersion": "10.1.0",
       "targets": [
         {
           "datasource": {
@@ -1531,7 +1532,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.2",
+      "pluginVersion": "10.1.0",
       "targets": [
         {
           "datasource": {
@@ -1630,7 +1631,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.2",
+      "pluginVersion": "10.1.0",
       "targets": [
         {
           "datasource": {
@@ -2506,6 +2507,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 343,
+  "version": 344,
   "weekStart": ""
 }
