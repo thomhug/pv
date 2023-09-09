@@ -1990,7 +1990,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "sum_over_time(\n    sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>0)[1d:5s] offset -1d\n)  / 720 / 1000\n\n- sum(increase(meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"out\"}[1d] offset -1d)/1000)\n- min(\n sum_over_time((\n    meter{location=\"$Location\",position=\"battery\",type=\"gauge\"} <0)[1d:5s] offset -1d\n )  / 720 / 1000 *-1\n) >=0",
+          "expr": "sum_over_time(\n    sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>0)[1d:5s] offset -1d\n)  / 720 / 1000\n\n- sum(increase(meter{location=\"$Location\",position=\"grid\",type=\"counter\",direction=\"out\"}[1d] offset -1d)/1000)\n- min(\n sum_over_time((\n    meter{location=\"$Location\",position=\"battery\",type=\"gauge\"} <=0)[1d:5s] offset -1d\n )  / 720 / 1000 *-1\n) >=0",
           "hide": false,
           "legendFormat": "PV Direktverbrauch",
           "range": true,
@@ -2002,7 +2002,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "min(\n sum_over_time((\n    meter{location=\"$Location\",position=\"battery\",type=\"gauge\"} <0)[1d:5s] offset -1d\n )  / 720 / 1000 *-1\n)",
+          "expr": "min(\n sum_over_time((\n    meter{location=\"$Location\",position=\"battery\",type=\"gauge\"} <=0)[1d:5s] offset -1d\n )  / 720 / 1000 *-1\n)",
           "hide": false,
           "legendFormat": "Batterieladung",
           "range": true,
@@ -2385,7 +2385,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"in\",location=\"$Location\"}[1d] offset -1d))/1000 \n- sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[1d] offset -1d))/1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}>0)[1d:5s] offset -1d\n)  / 720 / 1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}<0)[1d:5s] offset -1d\n)  / 720 / 1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>0)[1d:5s] offset -1d\n)  / 720 / 1000\n\n-sum(increase((meter{description=\"Wärmepumpe\",location=\"$Location\",position=\"device\",type=\"counter\"} or vector(0))[1d:5s] offset -1d)) / 1000",
+          "expr": "sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"in\",location=\"$Location\"}[1d] offset -1d))/1000 \n- sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[1d] offset -1d))/1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}>=0)[1d:5s] offset -1d\n)  / 720 / 1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}<=0)[1d:5s] offset -1d\n)  / 720 / 1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>0)[1d:5s] offset -1d\n)  / 720 / 1000\n\n-sum(increase((meter{description=\"Wärmepumpe\",location=\"$Location\",position=\"device\",type=\"counter\"} or vector(0))[1d:5s] offset -1d)) / 1000",
           "format": "time_series",
           "instant": false,
           "interval": "",
@@ -2507,6 +2507,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 344,
+  "version": 345,
   "weekStart": ""
 }
