@@ -1,8 +1,11 @@
 # Tom's PV Dashboard
 Scripts und Configs um ein PV Dashboard wie dieses zu machen:
+Dashboard Januar 2023:
 ![Dashboard Januar 2023](https://github.com/thomhug/pv/blob/main/pv%20dashboard%202023-01-13.PNG)
-Neue Version mit Batterieanzeige:
+Neue Version mit Batterieanzeige (Februar 2023):
 ![Dashboard Februar 2023](https://github.com/thomhug/pv/blob/main/pv%20dashboard%202023-02-21.jpg)
+Version November 2023 - aufgeräumter:
+![Dashboard November 2023](https://github.com/thomhug/pv/blob/main/pv%20dashboard%202023-11-08.jpg)
 
 Mehr Dashboards in folgendem Twitter Thread von mir: https://twitter.com/tomdawon/status/1643496217370918914
 
