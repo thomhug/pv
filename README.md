@@ -5,7 +5,7 @@ Dashboard Januar 2023:
 Neue Version mit Batterieanzeige (Februar 2023):
 ![Dashboard Februar 2023](https://github.com/thomhug/pv/blob/main/pv%20dashboard%202023-02-21.jpg)
 Version November 2023 - aufgeräumter:
-![Dashboard November 2023](https://github.com/thomhug/pv/blob/main/pv%20dashboard%202023-11-08.jpg)
+![Dashboard November 2023](https://github.com/thomhug/pv/blob/main/pv%20dashboard%202023-11-08.png)
 
 Mehr Dashboards in folgendem Twitter Thread von mir: https://twitter.com/tomdawon/status/1643496217370918914
 
