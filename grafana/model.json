@@ -1760,7 +1760,8 @@
         "groupWidth": 0.7,
         "legend": {
           "calcs": [
-            "mean"
+            "mean",
+            "sum"
           ],
           "displayMode": "list",
           "placement": "bottom",
@@ -2523,6 +2524,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 346,
+  "version": 347,
   "weekStart": ""
 }
