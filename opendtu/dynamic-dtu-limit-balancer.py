@@ -39,6 +39,8 @@ for inv in data["inverters"]:
         print("AC Power:", ac_power)
         print("Efficiency:", efficiency)
         print("Relative limit:", limit_relative)
+        limit_absolut = limit_relative / 100 * hwlimit
+        print("Limit:", limit_absolut)
 
 print("")
 
@@ -52,7 +54,8 @@ potential = 0
 # Kalkulation
 for port, dc_power_value in dc_power_values.items():
   dc_total += dc_power_value
-  diff_sum += port_limit - (dc_power_value * efficiency/100)
+  if dc_power_value * efficiency/100 < port_limit:
+    diff_sum += port_limit - (dc_power_value * efficiency/100)
   if dc_power_value * efficiency/100 > port_limit * 0.95:
     print("port " + str(port) + " ist über dem Limit: " + str(dc_power_value))
     potential = 1
