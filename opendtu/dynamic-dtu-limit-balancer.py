@@ -62,9 +62,12 @@ for port, dc_power_value in dc_power_values.items():
 
 if dc_total * efficiency/100 < target and potential == 1:
   print("Es gäbe Raum, da " + str(dc_total * efficiency/100) + " kleiner " + str(target))
-  print("Vorschlag Erhoehung: " + str(diff_sum))   
-  target_limit = round(target + diff_sum)
+  print("Vorschlag Erhoehung: " + str(diff_sum*2))   
+  target_limit = round(target + diff_sum*2)
   print("Setting to: " + str(target_limit))   
+elif ac_power <= target *1.02:
+  print("Der WR ist unter dem Limit, keine Aenderung.")
+  target_limit = limit_absolut
 else:
   print("Der WR ist bereits am Limit oder Erhoehung ist nicht noetig.")
   target_limit = target
