@@ -874,7 +874,7 @@
                 "value": {
                   "legend": false,
                   "tooltip": false,
-                  "viz": true
+                  "viz": false
                 }
               }
             ]
@@ -901,7 +901,7 @@
                 "value": {
                   "legend": false,
                   "tooltip": false,
-                  "viz": true
+                  "viz": false
                 }
               }
             ]
@@ -1096,6 +1096,39 @@
                 "value": {
                   "legend": true,
                   "tooltip": true,
+                  "viz": true
+                }
+              }
+            ]
+          },
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "Verbrauch",
+                  "Bezug",
+                  "PV",
+                  "Batterie",
+                  "Batteriebezug",
+                  "PV Peak",
+                  "Sun altitude",
+                  "Prognose",
+                  "Prognose_min",
+                  "Prognose_max"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
                   "viz": true
                 }
               }
@@ -2524,6 +2557,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 347,
+  "version": 349,
   "weekStart": ""
 }
