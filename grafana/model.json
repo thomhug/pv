@@ -311,7 +311,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "clamp_min(\n  meter{location=\"$Location\",position=\"grid\",type=\"gauge\"} + \n  scalar(sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"} >=0)) - \n  scalar(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}*-1)\n,0)",
+          "expr": "clamp_min(\n  meter{location=\"$Location\",position=\"grid\",type=\"gauge\"} + \n  scalar(sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"} >=0)) - \n  scalar(sum(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}*-1))\n,0)",
           "format": "time_series",
           "instant": false,
           "legendFormat": "{{position}} / {{location}}",
@@ -1165,7 +1165,7 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "expr": "clamp_min(\n  meter{location=\"$Location\",position=\"grid\",type=\"gauge\"} + \n  scalar(sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"} >=0)) - \n  scalar(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}*-1)\n,0)",
+          "expr": "clamp_min(\n  meter{location=\"$Location\",position=\"grid\",type=\"gauge\"} + \n  scalar(sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"} >=0)) - \n  scalar(sum(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}*-1))\n,0)",
           "hide": false,
           "legendFormat": "Verbrauch",
           "range": true,
@@ -2557,6 +2557,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 349,
+  "version": 350,
   "weekStart": ""
 }
