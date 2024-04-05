@@ -137,20 +137,6 @@
     {
       "asDropdown": false,
       "icon": "external link",
-      "includeVars": false,
-      "keepTime": false,
-      "tags": [
-        "forecast"
-      ],
-      "targetBlank": false,
-      "title": "FC",
-      "tooltip": "",
-      "type": "dashboards",
-      "url": ""
-    },
-    {
-      "asDropdown": false,
-      "icon": "external link",
       "includeVars": true,
       "keepTime": false,
       "tags": [
@@ -2571,6 +2557,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 351,
+  "version": 352,
   "weekStart": ""
 }
