@@ -1929,6 +1929,10 @@
               {
                 "id": "unit",
                 "value": "time:DD.MM."
+              },
+              {
+                "id": "displayName",
+                "value": "Tag"
               }
             ]
           },
@@ -1972,6 +1976,29 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "light-purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total"
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "super-light-yellow",
                   "mode": "fixed"
                 }
               }
@@ -2061,7 +2088,12 @@
       "timeFrom": "7d",
       "timeShift": "0d+1d",
       "title": "PV Total / Verwendung",
-      "transformations": [],
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {}
+        }
+      ],
       "type": "barchart"
     },
     {
@@ -2122,6 +2154,10 @@
               {
                 "id": "unit",
                 "value": "time:DD.MM."
+              },
+              {
+                "id": "displayName",
+                "value": "Tag"
               }
             ]
           },
@@ -2166,6 +2202,22 @@
                 "value": {
                   "fixedColor": "dark-purple",
                   "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total"
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
                 }
               }
             ]
@@ -2220,7 +2272,7 @@
           "hide": false,
           "legendFormat": "Bezug Netz",
           "range": true,
-          "refId": "A"
+          "refId": "Bezug"
         },
         {
           "datasource": {
@@ -2236,7 +2288,7 @@
           "interval": "",
           "legendFormat": "PV Direktverbrauch",
           "range": true,
-          "refId": "Verbrauch"
+          "refId": "Direktverbrauch"
         },
         {
           "datasource": {
@@ -2264,13 +2316,28 @@
           "hide": false,
           "legendFormat": "Batteriebezug",
           "range": true,
-          "refId": "B"
+          "refId": "Batteriebezug"
         }
       ],
       "timeFrom": "7d",
       "timeShift": "0d+1d",
       "title": "Verbrauch Total / Herkunft",
-      "transformations": [],
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "mode": "reduceRow",
+            "reduce": {
+              "include": [
+                "Batteriebezug",
+                "PV Direktverbrauch",
+                "Bezug Netz"
+              ],
+              "reducer": "sum"
+            }
+          }
+        }
+      ],
       "type": "barchart"
     },
     {
@@ -2331,21 +2398,10 @@
               {
                 "id": "unit",
                 "value": "time:DD.MM."
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "sum(increase(shelly_wh_total{instance=\"http://10.10.11.82/status&name=wp\"}[1d] offset -1d)) / 1000"
-            },
-            "properties": [
+              },
               {
-                "id": "color",
-                "value": {
-                  "fixedColor": "dark-orange",
-                  "mode": "fixed"
-                }
+                "id": "displayName",
+                "value": "Tag"
               }
             ]
           },
@@ -2557,6 +2613,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 353,
+  "version": 356,
   "weekStart": ""
 }
