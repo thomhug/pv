@@ -314,21 +314,9 @@
           "expr": "clamp_min(\n  meter{location=\"$Location\",position=\"grid\",type=\"gauge\"} + \n  scalar(sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"} >=0)) - \n  scalar(sum(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}*-1))\n,0)",
           "format": "time_series",
           "instant": false,
-          "legendFormat": "{{position}} / {{location}}",
+          "legendFormat": "Verbrauch",
           "range": true,
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Fy5McwD4k"
-          },
-          "editorMode": "code",
-          "expr": "meter{position=\"load\",type=\"gauge\",location=\"$Location\"}*-1",
-          "hide": true,
-          "legendFormat": "Load",
-          "range": true,
-          "refId": "B"
         }
       ],
       "timeFrom": "5s",
@@ -400,7 +388,7 @@
           "exemplar": false,
           "expr": "meter{position=\"grid\",type=\"gauge\",location=\"$Location\"}",
           "instant": false,
-          "legendFormat": "__auto",
+          "legendFormat": "EW / Grid",
           "range": true,
           "refId": "A"
         }
@@ -1362,7 +1350,7 @@
           },
           "editorMode": "code",
           "expr": "sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"in\",location=\"$Location\"}[$__range]))/1000 \n- sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range]))/1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}>=0)[$__range:5s]\n)  / 720 / 1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"}<=0)[$__range:5s]\n)  / 720 / 1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>=0)[$__range:5s]\n)  / 720 / 1000",
-          "legendFormat": "__auto",
+          "legendFormat": "Verbrauch Total",
           "range": true,
           "refId": "A"
         }
@@ -1433,7 +1421,7 @@
           },
           "editorMode": "code",
           "expr": "sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"in\",location=\"$Location\"}[$__range])) / 1000",
-          "legendFormat": "__auto",
+          "legendFormat": "Bezug Total",
           "range": true,
           "refId": "A"
         }
@@ -1574,7 +1562,7 @@
           },
           "editorMode": "code",
           "expr": "sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[$__range])) / 1000",
-          "legendFormat": "__auto",
+          "legendFormat": "Einspeisung",
           "range": true,
           "refId": "A"
         }
@@ -2613,6 +2601,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 357,
+  "version": 358,
   "weekStart": ""
 }
