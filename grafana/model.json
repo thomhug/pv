@@ -2284,22 +2284,6 @@
             "uid": "Fy5McwD4k"
           },
           "editorMode": "code",
-          "exemplar": false,
-          "expr": "sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"in\",location=\"$Location\"}[1d] offset -1d))/1000 \n- sum(increase(meter{position=\"grid\",type=\"counter\",direction=\"out\",location=\"$Location\"}[1d] offset -1d))/1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"battery\",type=\"gauge\"})[1d:5s] offset -1d\n)  / 720 / 1000\n+ sum_over_time(\n    sum(meter{location=\"$Location\",position=\"generator\",type=\"gauge\"}>0)[1d:5s] offset -1d\n)  / 720 / 1000\n-\nsum(increase(meter{position=\"grid\",type=\"counter\",direction=\"in\",location=\"$Location\"}[1d] offset -1d)) / 1000\n-\nmax(\n sum_over_time((\n    meter{location=\"$Location\",position=\"battery\",type=\"gauge\"} >0)[1d:5s] offset -1d\n )  / 720 / 1000\n)\n>=0\n",
-          "format": "time_series",
-          "hide": true,
-          "instant": false,
-          "interval": "",
-          "legendFormat": "PV Direktverbrauch OLD",
-          "range": true,
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Fy5McwD4k"
-          },
-          "editorMode": "code",
           "expr": "max(\n sum_over_time((\n    meter{location=\"$Location\",position=\"battery\",type=\"gauge\"} >=0)[1d:5s] offset -1d\n )  / 720 / 1000\n)",
           "hide": false,
           "legendFormat": "Batteriebezug",
@@ -2601,6 +2585,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 358,
+  "version": 359,
   "weekStart": ""
 }
