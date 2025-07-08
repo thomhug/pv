@@ -459,28 +459,13 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum({position=\"generator\",type=\"gauge\",location=~\"$Location\"} >=0)",
+          "expr": "sum(meter{position=\"generator\",type=\"gauge\",location=~\"$Location\"} >=0)",
           "format": "time_series",
           "hide": false,
           "instant": false,
           "legendFormat": "PV {{description}}",
           "range": true,
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Fy5McwD4k"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "{position=\"generator\",type=\"gauge\",location=~\"$Location\", description=~\"gen24|symo\"}",
-          "format": "time_series",
-          "hide": true,
-          "instant": false,
-          "legendFormat": "PV {{description}}",
-          "range": true,
-          "refId": "B"
         }
       ],
       "timeFrom": "5s",
@@ -2585,6 +2570,6 @@
   "timezone": "",
   "title": "PV Cham",
   "uid": "ZDTJEXvVk",
-  "version": 359,
+  "version": 360,
   "weekStart": ""
 }
